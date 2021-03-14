@@ -8,6 +8,8 @@ class AuthenticationController < ApplicationController
     ## body로 부터 받은 json 형식의 params를 parsing
       @user = User.find_by(email: authenticate_params[:email])
       if @user&.authenticate(authenticate_params[:password])
+        @user_key = "user:#{@user.id}"
+        Rails.cache.write(@user_key,true,expires_in: 7.days)
         render json: {token: payload(@user), name: @user.name}, status: :ok
       else 
         render json: {error: 'unauthorized'}, status: :unauthorized
@@ -17,7 +19,12 @@ class AuthenticationController < ApplicationController
   def logout
     @user_key = "user:#{@current_user.id}"
     valid = Rails.cache.read(@user_key)
-    byebug
+    if valid
+      Rails.cache.delete(@user_key)
+      render json: {message: "성공적으로 로그아웃 되었습니다!"}, status: :ok
+    else
+      render json: {error: "unauthorized"}, status: :unauthorized
+    end
   end 
 
   private

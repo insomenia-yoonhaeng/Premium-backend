@@ -62,7 +62,6 @@ class ApplicationController < ActionController::API
   ## 헤더에 있는 정보 중, Authorization 내용(토큰) 추출
   def http_token
     http_token ||= if request.headers['Authorization'].present?
-			byebug
       request.headers['Authorization'].split(' ').last
     end
   end

@@ -23,7 +23,8 @@ gem 'panko_serializer'
 #gem 'active_model_serializers'
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
-
+gem "actionpack-page_caching"
+gem "actionpack-action_caching"
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
