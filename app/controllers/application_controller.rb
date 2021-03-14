@@ -7,7 +7,23 @@ class ApplicationController < ActionController::API
     render json: { error: 'not_found' } 
   end
   
+<<<<<<< HEAD
   
+=======
+  def search
+    class_name = params[:class_name].classify.constantize
+    @objects = class_name.ransack(params[:q]).result
+    render json: @objects
+  end
+
+  def init_each_serializer(object,serializer)
+    return Panko::ArraySerializer.new(object, each_serializer: serializer).to_json
+  end
+
+  def init_serializer(object,serializer, attributes=[])
+    return serializer.new(only: attributes).serialize(object).to_json
+  end
+>>>>>>> 1e0863f7496c2947e3a445a073c7eefbfd60a665
   protected
 
   ## JWT 토큰 검증
