@@ -2,24 +2,18 @@ class ApplicationController < ActionController::API
   #skip_before_action :verify_authenticity_token
   attr_reader :current_user
 
+
   def not_found
     render json: { error: 'not_found' } 
   end
-
-  def init_each_serializer(object,serializer)
-    return Panko::ArraySerializer.new(object, each_serializer: serializer).to_json
-  end
-
-  def init_serializer(object,serializer, attributes=[])
-    return serializer.new(only: attributes).serialize(object).to_json
-  end
-
+  
+  
   protected
 
   ## JWT 토큰 검증
   def authorize_request
     begin
-      @current_user = User.find(auth_token[:user_id])
+      current_user = User.find(auth_token[:user_id])
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError
       render json: { errors: 'Token not found' }, status: :not_found
     rescue ActionController::UnknownFormat
@@ -75,4 +69,15 @@ class ApplicationController < ActionController::API
   def user_id_in_token?
     http_token && auth_token && auth_token[:user_id].to_i
   end
+
+	def serializer object, serializer, attributes = []
+		serializer.new(only: attributes).serialize(object)
+	end
+
+	def each_serializer objects, serializer
+		Panko::ArraySerializer.new(
+			objects,
+			each_serializer: serializer
+		).to_a
+	end
 end
