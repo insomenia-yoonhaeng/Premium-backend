@@ -31,6 +31,13 @@ class UsersController < ApplicationController
     send_response(result)
   end
 
+
+  def logout
+    @user_key = "user:#{@current_user.id}"
+    valid = Rails.cache.read(@user_key)
+    byebug
+  end 
+
   private
     
   def user_params

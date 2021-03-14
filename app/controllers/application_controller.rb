@@ -2,18 +2,8 @@ class ApplicationController < ActionController::API
   #skip_before_action :verify_authenticity_token
   attr_reader :current_user
 
-
   def not_found
     render json: { error: 'not_found' } 
-  end
-  
-<<<<<<< HEAD
-  
-=======
-  def search
-    class_name = params[:class_name].classify.constantize
-    @objects = class_name.ransack(params[:q]).result
-    render json: @objects
   end
 
   def init_each_serializer(object,serializer)
@@ -23,13 +13,13 @@ class ApplicationController < ActionController::API
   def init_serializer(object,serializer, attributes=[])
     return serializer.new(only: attributes).serialize(object).to_json
   end
->>>>>>> 1e0863f7496c2947e3a445a073c7eefbfd60a665
+
   protected
 
   ## JWT 토큰 검증
   def authorize_request
     begin
-      current_user = User.find(auth_token[:user_id])
+      @current_user = User.find(auth_token[:user_id])
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError
       render json: { errors: 'Token not found' }, status: :not_found
     rescue ActionController::UnknownFormat
