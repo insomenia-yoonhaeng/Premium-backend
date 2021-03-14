@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_action :load_user, except: %i(index create)
 
   def index
-    byebug
     send_response([User.all, :ok])
   end
 
