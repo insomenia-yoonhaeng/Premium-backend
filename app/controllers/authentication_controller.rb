@@ -1,12 +1,14 @@
 class AuthenticationController < ApplicationController
 
+	before_action :authenticate_params, only: %w(token_create)
+
   ## JWT 토큰 생성을 위한 Devise 유저 정보 검증
   def token_create
+		return unless authenticate_params
     ## body로 부터 받은 json 형식의 params를 parsing
-    token_params = JSON.parse(request.body.read)
-      @user = User.find_by(email: token_params['email'])
-      if @user&.authenticate(token_params['password'])
-        render json: {token: payload(@user), username: @user.name}, status: :ok
+      @user = User.find_by(email: authenticate_params[:email])
+      if @user&.authenticate(authenticate_params[:password])
+        render json: {token: payload(@user), name: @user.name}, status: :ok
       else 
         render json: {error: 'unauthorized'}, status: :unauthorized
       end
@@ -23,5 +25,9 @@ class AuthenticationController < ApplicationController
     
     return @tree
   end
+
+	def authenticate_params
+		authenticate_params = params.fetch(:user, {}).permit(:email, :password)
+	end
   
 end

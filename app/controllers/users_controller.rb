@@ -3,12 +3,11 @@ class UsersController < ApplicationController
   before_action :load_user, except: %i(index create)
 
   def index
-    send_response([User.all, :ok])
+    render json: User.all
   end
 
   def show
-    result = (@user) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
-    send_response(result)
+    render json: User.find(params[:id]), each_serializer: UserSerializer
   end
     
   def create

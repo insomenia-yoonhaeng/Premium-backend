@@ -7,12 +7,7 @@ class ApplicationController < ActionController::API
     render json: { error: 'not_found' } 
   end
   
-  def search
-    class_name = params[:class_name].classify.constantize
-    @objects = class_name.ransack(params[:q]).result
-    render json: @objects
-  end
-
+  
   protected
 
   ## JWT 토큰 검증
@@ -28,11 +23,11 @@ class ApplicationController < ActionController::API
     end
   end
 
-  def check_authentication
-    @objects = params[:controller].classify.constantize.find_by(id: params[:id])
-    (params[:controller].eql?("posts")) ? @objects = @objects.tag_list.reject(&:empty?).map(&:to_i) : @objects.user_ids
-    send_response([@objects, :unauthorized]) unless @objects.include? current_user.id
-  end
+  # def check_authentication
+  #   @objects = params[:controller].classify.constantize.find_by(id: params[:id])
+  #   (params[:controller].eql?("posts")) ? @objects = @objects.tag_list.reject(&:empty?).map(&:to_i) : @objects.user_ids
+  #   send_response([@objects, :unauthorized]) unless @objects.include? current_user.id
+  # end
 
   private
 
@@ -61,6 +56,7 @@ class ApplicationController < ActionController::API
   ## 헤더에 있는 정보 중, Authorization 내용(토큰) 추출
   def http_token
     http_token ||= if request.headers['Authorization'].present?
+			byebug
       request.headers['Authorization'].split(' ').last
     end
   end
