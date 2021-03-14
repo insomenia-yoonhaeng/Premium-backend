@@ -13,6 +13,13 @@ class ApplicationController < ActionController::API
     render json: @objects
   end
 
+  def init_each_serializer(object,serializer)
+    return Panko::ArraySerializer.new(object, each_serializer: serializer).to_json
+  end
+
+  def init_serializer(object,serializer, attributes=[])
+    return serializer.new(only: attributes).serialize(object).to_json
+  end
   protected
 
   ## JWT 토큰 검증
