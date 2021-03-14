@@ -90,6 +90,10 @@ GEM
     nio4r (2.5.7)
     nokogiri (1.11.1-x86_64-darwin)
       racc (~> 1.4)
+    oj (3.11.3)
+    panko_serializer (0.7.5)
+      activesupport
+      oj (~> 3.11.0)
     pg (1.2.3)
     puma (4.3.7)
       nio4r (~> 2.0)
@@ -157,6 +161,7 @@ DEPENDENCIES
   figaro
   jwt
   listen (~> 3.2)
+  panko_serializer
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.5)
