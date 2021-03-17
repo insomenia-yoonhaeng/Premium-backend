@@ -1,5 +1,5 @@
 class User < ApplicationRecord
 	include ImageUrl
-	include Imagable
+	include Imageable
   has_secure_password
 end
