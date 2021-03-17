@@ -1,4 +1,4 @@
-class AuthenticationController < ApplicationController
+class AuthenticationController < ApiController
 	before_action :authenticate_params, only: %w(token_create)
   before_action :authorize_request, only: %i(logout)
   ## JWT 토큰 생성을 위한 Devise 유저 정보 검증
