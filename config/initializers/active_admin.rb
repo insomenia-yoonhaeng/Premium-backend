@@ -126,6 +126,18 @@ ActiveAdmin.setup do |config|
   # You can completely disable comments:
   # config.comments = false
   #
+  # 모든 어플리케이션에서 comment 끄기 
+  config.comments = false 
+    
+  config.namespace :admin do |admin|
+    admin.comments = false 
+    admin.build_menu do |menu|
+      menu.add label: '사용자 관리', priority: 1
+    end
+  end
+
+  config.footer = 'Premium'
+
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
   #

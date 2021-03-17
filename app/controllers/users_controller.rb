@@ -16,9 +16,10 @@ class UsersController < ApiController
   end
     
   def create
-    @user = User.new user_params
-    result = (@user.save) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
-    send_response(result)
+    @user = User.create user_params
+    @user.approving! if params.dig(:user,:user_type) == "tutor"
+    #result = (@user.save) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
+    send_response([@user, :ok])
   end
   
   def update
@@ -35,7 +36,7 @@ class UsersController < ApiController
   private
     
   def user_params
-    params.require(:user).permit(:email, :password, :name, :gender ,:body, :user_type)
+    params.require(:user).permit(:email, :password, :name ,:info, :user_type, :phone)
   end 
 
   def load_user
