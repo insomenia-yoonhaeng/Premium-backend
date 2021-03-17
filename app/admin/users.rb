@@ -6,6 +6,9 @@ ActiveAdmin.register User do
   I18n.t("activerecord.enum.user.user_type").keys.each do |user_type|
     scope -> { I18n.t("activerecord.enum.user.user_type.#{user_type}") }, user_type
   end
+  I18n.t("activerecord.enum.user.status").keys.each do |status|
+    scope -> { I18n.t("activerecord.enum.user.status.#{status}") }, status
+  end
 
   batch_action "#{I18n.t("activerecord.attributes.user.status")} 변경", form: {
     "승인 상태": I18n.t("activerecord.enum.user.status").keys
@@ -15,6 +18,9 @@ ActiveAdmin.register User do
     flash[:notice] = '해당 리스트들의 변경을 성공적으로 완료했습니다.'
     redirect_back(fallback_location: collection_path)
   end
+
+  filter :name_cont, label: "이름 검색"
+  filter :email_cont, label: "이메일 검색"
 
   index do
     selectable_column
