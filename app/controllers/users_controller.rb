@@ -36,7 +36,7 @@ class UsersController < ApiController
   private
     
   def user_params
-    params.require(:user).permit(:email, :password, :name ,:info, :user_type, :phone)
+    params.require(:user).permit(User::PERMIT_COLUMNS)
   end 
 
   def load_user
