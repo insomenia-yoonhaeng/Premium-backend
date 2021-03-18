@@ -16,9 +16,10 @@ class UsersController < ApiController
   end
     
   def create
-    @user = User.new user_params
-    result = (@user.save) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
-    send_response(result)
+    @user = User.create user_params
+    @user.approving! if params.dig(:user,:user_type) == "tutor"
+    #result = (@user.save) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
+    send_response([@user, :ok])
   end
   
   def update

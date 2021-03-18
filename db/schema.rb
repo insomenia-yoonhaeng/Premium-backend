@@ -53,13 +53,14 @@ ActiveRecord::Schema.define(version: 2021_03_17_161921) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
-    t.integer "user_type"
+    t.integer "user_type", limit: 2, default: 0
     t.string "phone"
     t.string "name"
     t.text "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "image"
+    t.integer "status", limit: 2, default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
   end

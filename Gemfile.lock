@@ -99,6 +99,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-i18n (1.9.3)
+      devise (>= 4.7.1)
     erubi (1.10.0)
     ffi (1.14.2)
     figaro (1.2.0)
@@ -258,6 +260,7 @@ DEPENDENCIES
   byebug
   carrierwave
   devise
+  devise-i18n
   figaro
   jwt
   listen (~> 3.2)
@@ -266,6 +269,7 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.5)
+  ransack
   sassc-rails
   spring
   spring-watcher-listen (~> 2.0.0)
