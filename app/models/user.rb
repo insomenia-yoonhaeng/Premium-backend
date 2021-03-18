@@ -2,7 +2,7 @@ class User < ApplicationRecord
 	include ImageUrl
 	include Imageable
   
-	PERMIT_COLUMNS = [:email, :password, :user_type, :phone, :name, :info, :status, images: []]
+	PERMIT_COLUMNS = [:email,:image, :password, :user_type, :phone, :name, :info, :status, images: []]
 	
 	has_secure_password
 

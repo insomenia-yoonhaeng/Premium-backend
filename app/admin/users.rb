@@ -1,6 +1,7 @@
 ActiveAdmin.register User do
   
   menu parent: "사용자 관리", priority: 1
+  permit_params :name, :email, :password, :status, :user_type, :phone, images: []
   
   scope -> { '전체' }, :all
   I18n.t("activerecord.enum.user.user_type").keys.each do |user_type|
