@@ -38,9 +38,15 @@ gem 'arctic_admin'
 gem 'devise-i18n'
 
 gem 'ransack'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails'
+  gem 'faker'
+  gem 'factory_girl'
+  gem 'factory_bot_rails'
+  gem 'database_cleaner'
 end
 
 group :development do
