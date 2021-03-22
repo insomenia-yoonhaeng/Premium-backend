@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   delete 'users/sign_out', to: 'authentication#logout'
   post 'users/sign_up', to: 'users#create'
   resources :users
+	resources :projects
 end
