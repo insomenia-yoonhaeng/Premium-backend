@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_110507) do
+ActiveRecord::Schema.define(version: 2021_03_22_130820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(version: 2021_03_22_110507) do
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
   end
 
+  create_table "projects", force: :cascade do |t|
+    t.bigint "tutor_id"
+    t.datetime "experience_period"
+    t.string "description"
+    t.integer "deposit"
+    t.string "image"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["tutor_id"], name: "index_projects_on_tutor_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -58,11 +69,12 @@ ActiveRecord::Schema.define(version: 2021_03_22_110507) do
     t.text "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "status", limit: 2, default: 0
     t.string "image"
+    t.integer "status", limit: 2, default: 0
     t.string "type"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
   end
 
+  add_foreign_key "projects", "users", column: "tutor_id"
 end

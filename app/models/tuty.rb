@@ -1,3 +1,0 @@
-class Tuty < User
-
-end
