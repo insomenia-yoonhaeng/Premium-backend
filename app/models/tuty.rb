@@ -1,0 +1,3 @@
+class Tuty < User
+
+end
