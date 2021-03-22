@@ -1,12 +1,9 @@
 ActiveAdmin.register User do
   
   menu parent: "사용자 관리", priority: 1
-  permit_params :name, :email, :password, :status, :user_type, :phone, images: []
+  permit_params :name, :email, :password, :status, :phone, images: []
   
   scope -> { '전체' }, :all
-  I18n.t("activerecord.enum.user.user_type").keys.each do |user_type|
-    scope -> { I18n.t("activerecord.enum.user.user_type.#{user_type}") }, user_type
-  end
   I18n.t("activerecord.enum.user.status").keys.each do |status|
     scope -> { I18n.t("activerecord.enum.user.status.#{status}") }, status
   end
@@ -28,9 +25,9 @@ ActiveAdmin.register User do
     id_column
     column :name
     column :email
-    column "사용자 유형" do |user|
-      I18n.t("activerecord.enum.user.user_type.#{user.user_type}")
-    end
+    # column "사용자 유형" do |user|
+    #   I18n.t("activerecord.enum.user.user_type.#{user.user_type}")
+    # end
     column :phone
     column "승인 상태" do |user|
       I18n.t("activerecord.enum.user.status.#{user.status}")
