@@ -17,7 +17,7 @@ class UsersController < ApiController
     
   def create
     @user = User.create user_params
-    @user.approving! if params.dig(:user,:user_type) == "tutor"
+    @user.approving! if params.dig(:user, :type) == "Tutor"
     #result = (@user.save) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
     send_response([@user, :ok])
   end
