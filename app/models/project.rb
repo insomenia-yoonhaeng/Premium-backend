@@ -5,5 +5,5 @@ class Project < ApplicationRecord
 	PERMIT_COLUMNS = [:experience_period, :description, :deposit, :image]
 	
   belongs_to :tutor, optional: true
-	has_many :tutees, dependent: :nullify
+	has_many :project_tutees, dependent: :nullify
 end

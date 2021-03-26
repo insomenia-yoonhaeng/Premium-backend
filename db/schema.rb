@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_22_154850) do
+ActiveRecord::Schema.define(version: 2021_03_26_133145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,15 @@ ActiveRecord::Schema.define(version: 2021_03_22_154850) do
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
   end
 
+  create_table "project_tutees", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "tutee_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_project_tutees_on_project_id"
+    t.index ["tutee_id"], name: "index_project_tutees_on_tutee_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.bigint "tutor_id"
     t.string "description"
@@ -72,12 +81,10 @@ ActiveRecord::Schema.define(version: 2021_03_22_154850) do
     t.string "image"
     t.integer "status", limit: 2, default: 0
     t.string "type"
-    t.bigint "project_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
-    t.index ["project_id"], name: "index_users_on_project_id"
   end
 
+  add_foreign_key "project_tutees", "users", column: "tutee_id"
   add_foreign_key "projects", "users", column: "tutor_id"
-  add_foreign_key "users", "users", column: "project_id"
 end
