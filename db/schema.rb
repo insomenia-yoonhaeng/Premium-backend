@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_26_144442) do
+ActiveRecord::Schema.define(version: 2021_03_26_145558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,15 @@ ActiveRecord::Schema.define(version: 2021_03_26_144442) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
+  create_table "auths", force: :cascade do |t|
+    t.string "description"
+    t.string "authable_type", null: false
+    t.bigint "authable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["authable_type", "authable_id"], name: "index_auths_on_authable_type_and_authable_id"
+  end
+
   create_table "images", force: :cascade do |t|
     t.string "image"
     t.string "imageable_type", null: false
@@ -48,6 +57,16 @@ ActiveRecord::Schema.define(version: 2021_03_26_144442) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "likable_type", null: false
+    t.bigint "likable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["likable_type", "likable_id"], name: "index_likes_on_likable_type_and_likable_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
   end
 
   create_table "project_tutees", force: :cascade do |t|
@@ -61,12 +80,12 @@ ActiveRecord::Schema.define(version: 2021_03_26_144442) do
 
   create_table "projects", force: :cascade do |t|
     t.bigint "tutor_id", null: false
+    t.datetime "experience_period"
     t.string "description"
     t.integer "deposit"
     t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "experience_period"
     t.string "title", null: false
     t.index ["tutor_id"], name: "index_projects_on_tutor_id"
   end
@@ -79,13 +98,15 @@ ActiveRecord::Schema.define(version: 2021_03_26_144442) do
     t.text "info"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "image"
     t.integer "status", limit: 2, default: 0
+    t.string "image"
     t.string "type"
+    t.integer "likes_count", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["phone"], name: "index_users_on_phone", unique: true
   end
 
+  add_foreign_key "likes", "users"
   add_foreign_key "project_tutees", "users", column: "tutee_id"
   add_foreign_key "projects", "users", column: "tutor_id"
 end
