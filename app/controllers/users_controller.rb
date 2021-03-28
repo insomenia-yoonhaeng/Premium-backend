@@ -3,23 +3,23 @@ class UsersController < ApiController
   before_action :load_user, except: %i(index create)
 
   def index
-    #send_response([User.all, :ok])
     @users = User.all
     render json: each_serializer(@users, UserSerializer), status: :ok
   end
 
   def show
     result = (@user) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
-    #send_response(result)
-
-    render json: serializer(@user, UserSerializer, [:id,:name, :user_test]), status: :ok
+    render json: serializer(@user, UserSerializer, [:id, :name, :type]), status: :ok
   end
     
   def create
-    @user = User.create user_params
-    @user.approving! if params.dig(:user, :type) == "Tutor"
-    #result = (@user.save) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
-    send_response([@user, :ok])
+    begin
+      @user = User.create user_params
+      @user.approving! if @user.is_a? Tutor
+      render json: serializer(@user, UserSerializer,[:id, :name, :email, :type]) ,status: :ok
+    rescue => e
+      return render json: {error: @user&.errors&.full_messages&.first}, status: :bad_request
+    end
   end
   
   def update
@@ -31,7 +31,6 @@ class UsersController < ApiController
     result = (@user.destroy) ? [@user, :ok] : [@user.destroy.errors.full_messages, ""]
     send_response(result)
   end
-
 
   private
     

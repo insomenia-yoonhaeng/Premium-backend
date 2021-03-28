@@ -23,11 +23,11 @@ ActiveAdmin.register User do
   index do
     selectable_column
     id_column
+    column "프로필 사진" do |user|
+      image_tag user.image.url(:small) if user.image.present?
+    end
     column :name
     column :email
-    # column "사용자 유형" do |user|
-    #   I18n.t("activerecord.enum.user.user_type.#{user.user_type}")
-    # end
     column :phone
     column "승인 상태" do |user|
       I18n.t("activerecord.enum.user.status.#{user.status}")

@@ -1,5 +1,4 @@
 class Tutee < User
-	include Authable
 
-	belongs_to :project, optional: true
+	has_many :project_tutees, dependent: :nullify
 end

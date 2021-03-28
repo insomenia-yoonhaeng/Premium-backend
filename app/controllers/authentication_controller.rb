@@ -36,7 +36,7 @@ class AuthenticationController < ApiController
   end
 
 	def authenticate_params
-		authenticate_params = params.fetch(:user, {}).permit(:email, :password)
+		authenticate_params = params.fetch(:user, {}).permit(User::PERMIT_COLUMNS)
 	end
   
 end

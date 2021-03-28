@@ -21,6 +21,10 @@ class ImageUploader < CarrierWave::Uploader::Base
     process resize_to_fit: [1600,1600]
   end
 
+  version :small do
+    process resize_to_fit: [250,250]
+  end
+
   def right_orientation
    manipulate! do |img|
      img.auto_orient
