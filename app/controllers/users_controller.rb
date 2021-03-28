@@ -15,8 +15,6 @@ class UsersController < ApiController
   def create
     begin
       @user = User.create user_params
-      return render json: {error: @user&.errors&.full_messages&.first}, status: :bad_request unless @user.id.present? 
-      @user.approving! if @user.is_a? Tutor
       render json: serializer(@user, UserSerializer,[:id, :name, :email, :type]) ,status: :ok
     rescue => e
       return render json: {error: @user&.errors&.full_messages&.first}, status: :bad_request

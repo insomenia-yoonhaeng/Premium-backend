@@ -10,7 +10,7 @@ class ProjectsController < ApiController
 
 	def create
 		begin
-			@project = @current_user.projects.create(project_whitelist) 
+			@project = @current_user.projects.create(project_params)
 			render json: serializer(@project, ProjectSerializer) 
 		rescue => exception
 			render json: {error: @project&.errors&.full_messages&.first}, status: :bad_request
@@ -52,10 +52,6 @@ class ProjectsController < ApiController
 
 	def project_whitelist
 	 params.require(:project).permit(Project::PERMIT_COLUMNS)
-	end
-
-	def check_user_type
-	 return unless @current_user.is_a? Tutor
 	end
 
 end

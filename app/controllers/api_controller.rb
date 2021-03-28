@@ -7,22 +7,30 @@ class ApiController < ActionController::API
     render json: { error: 'not_found' } 
   end
   
+  def check_auth
+    # 튜터가 인증이 되었는지 & auth 모델이 있는지 체크
+    ## false일 경우는 인증이 되어 있지 않은 경우 
+    (@current_user.is_a? Tutor) ? (@current_user.auths.present? && @current_user.approved?) : true
+  end
+
+	def check_user_type
+	  return render json: {error: "접근 권한이 없습니다." }, status: :unauthorized unless @current_user.is_a? Tutor
+	end
   
   protected
 
   ## JWT 토큰 검증
   def authorize_request
     begin
-      @current_user = User.find(auth_token[:user_id])
+			raise auth_token.class if auth_token.is_a? Exception
+			@current_user = User.find(auth_token[:user_id])
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError
-      render json: { errors: 'Token not found' }, status: :not_found
-    rescue ActionController::UnknownFormat
-      render json: { message: 'Bad request'}, status: :unprocessable_entity
+      render json: { errors: '비유효한 토큰입니다.' }, status: :not_found
     rescue
-      render json: { message: 'Internal error' }, status: :internal_server_error
-    end
+      render json: { message: '서버처리에서 문제가 발생했습니다.' }, status: :internal_server_error
+		end
   end
-
+	
   # def check_authentication
   #   @objects = params[:controller].classify.constantize.find_by(id: params[:id])
   #   (params[:controller].eql?("posts")) ? @objects = @objects.tag_list.reject(&:empty?).map(&:to_i) : @objects.user_ids

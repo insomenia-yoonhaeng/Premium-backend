@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   get '/get_current_user', to: 'authentication#get_current_user'
   resources :users
 	resources :projects
+  resources :auths
 end
