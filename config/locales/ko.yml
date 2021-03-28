@@ -38,8 +38,25 @@ ko:
         experience_period: 체험기간
         created_at: 생성일자
         updated_at: 수정일자
-    
-    
+      auth:
+        description: 인증방식
+        authable_type: 인증 주체
+        authable_id: 인증 주체 번호
+        created_at: 생성일자
+        updated_at: 수정일자
+      image:
+        image: 이미지경로
+        imageable_type: 이미지 주체
+        imageable_id: 이미지 주체 번호
+        created_at: 생성일자
+        updated_at: 수정일자
+      like:
+        user_id: 좋아요 누른 사람
+        likable_type: 좋아요 주체
+        likable_id: 좋아요 주체 번호
+        created_at: 생성일자
+        updated_at: 수정일자
+
     models:
       user: 사용자
       admin_user: 관리자

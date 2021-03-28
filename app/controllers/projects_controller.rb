@@ -10,7 +10,7 @@ class ProjectsController < ApiController
 
 	def create
 		begin
-			@project = @current_user.projects.create(project_whitelist) 
+			@project = @current_user.projects.create(project_whitelist)
 			render json: serializer(@project, ProjectSerializer) 
 		rescue => exception
 			render json: {error: @project&.errors&.full_messages&.first}, status: :bad_request
@@ -55,7 +55,7 @@ class ProjectsController < ApiController
 	end
 
 	def check_user_type
-	 return unless @current_user.is_a? Tutor
+	 return render json: {error: "접근 권한이 없습니다." }, status: :unauthorized unless @current_user.is_a? Tutor
 	end
 
 end
