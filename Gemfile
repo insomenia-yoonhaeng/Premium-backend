@@ -37,6 +37,8 @@ gem 'arctic_admin'
 
 gem 'devise-i18n'
 
+gem 'faker'
+
 gem 'ransack'
 
 group :development, :test do

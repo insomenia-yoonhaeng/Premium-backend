@@ -13,7 +13,7 @@ class ApiController < ActionController::API
   ## JWT 토큰 검증
   def authorize_request
     begin
-      current_user = User.find(auth_token[:user_id])
+      @current_user = User.find(auth_token[:user_id])
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError
       render json: { errors: 'Token not found' }, status: :not_found
     rescue ActionController::UnknownFormat
