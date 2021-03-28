@@ -22,17 +22,15 @@ class ApiController < ActionController::API
   ## JWT 토큰 검증
   def authorize_request
     begin
-      @current_user = User.find(auth_token[:user_id])
+			raise auth_token.class if auth_token.is_a? Exception
+			@current_user = User.find(auth_token[:user_id])
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError
-      render json: { errors: 'Token not found' }, status: :not_found
-    rescue ActionController::UnknownFormat
-      render json: { message: 'Bad request'}, status: :unprocessable_entity
+      render json: { errors: '비유효한 토큰입니다.' }, status: :not_found
     rescue
-      render json: { message: 'Internal error' }, status: :internal_server_error
-    end
+      render json: { message: '서버처리에서 문제가 발생했습니다.' }, status: :internal_server_error
+		end
   end
-
-
+	
   # def check_authentication
   #   @objects = params[:controller].classify.constantize.find_by(id: params[:id])
   #   (params[:controller].eql?("posts")) ? @objects = @objects.tag_list.reject(&:empty?).map(&:to_i) : @objects.user_ids
