@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post 'users/sign_in', to: 'authentication#login'
   delete 'users/sign_out', to: 'authentication#logout'
   post 'users/sign_up', to: 'users#create'
+  get '/get_current_user', to: 'authentication#get_current_user'
   resources :users
 	resources :projects
 end

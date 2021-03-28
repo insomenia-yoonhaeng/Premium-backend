@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
   context "유저 생성 관련" do
     it "잘못된 이메일 입력" do
       user = User.create(email: nil, password: "password", name: Faker::Name::name.gsub(/\s+/, ""))
-      expect(user).to validate_presence_of(:email)
+      expect(user).to eq nil
     end
     xit "중복 이메일 입력" do
       user = User.create(email: "testuser@test.com", password: "password", name: Faker::Name::name.gsub(/\s+/, ""))
