@@ -1,6 +1,6 @@
 class AuthenticationController < ApiController
 	before_action :authenticate_params, only: %w(token_create)
-  before_action :authorize_request, only: %i(logout)
+  before_action :authorize_request, only: %i(logout get_current_user)
   ## JWT 토큰 생성을 위한 Devise 유저 정보 검증
   
   def login
@@ -23,6 +23,15 @@ class AuthenticationController < ApiController
       render json: {error: "unauthorized"}, status: :unauthorized
     end
   end 
+
+  def get_current_user
+    begin
+      @current_user
+      render json: serializer(@current_user, UserSerializer, [:id, :name, :type]), status: :ok
+    rescue => exception
+      render json: {errors: @current_user&.errors&.full_messages&.first}, status: :bad_request
+    end
+  end
 
   private
 
