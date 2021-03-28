@@ -24,7 +24,7 @@ ActiveAdmin.register User do
     selectable_column
     id_column
     column "프로필 사진" do |user|
-      image_tag user.image.url(:small) if user.image.present?
+      image_tag user.image.url(:small) ,class: "user-index-image" if user.image.present?
     end
     column :name
     column :email
@@ -32,7 +32,35 @@ ActiveAdmin.register User do
     column "승인 상태" do |user|
       I18n.t("activerecord.enum.user.status.#{user.status}")
     end
+    column :type do |user|
+      I18n.t("activerecord.enum.user.type.#{user.type}")
+    end
     actions
+  end
+
+  show do 
+    attributes_table do
+      row :name
+      row :email
+      row :phone
+      row :info
+      row :likes_count
+      row :created_at
+      row :updated_at
+      
+      row "승인 상태" do |user|
+        I18n.t("activerecord.enum.user.status.#{user.status}")
+      end
+
+      row :image do |user|
+        image_tag user.image.url(:small) if user.image.present?
+      end
+
+      row "인증 이미지" do |user|
+        auth = Auth.find_by(authable_type: "User", authable_id: user.id)
+        link_to "유저 인증 이미지 보기", admin_auth_path(auth&.id) if user.type == "Tutor" && auth.present?
+      end
+    end
   end
 
   form do |f|
