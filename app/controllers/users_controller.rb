@@ -15,10 +15,6 @@ class UsersController < ApiController
   def create
     begin
       @user = User.create user_params
-      # if @user.is_a? Tutor
-      #   @user.auths.create auth_params
-      #   @user.approving!
-      # end
       render json: serializer(@user, UserSerializer,[:id, :name, :email, :type]) ,status: :ok
     rescue => e
       return render json: {error: @user&.errors&.full_messages&.first}, status: :bad_request
@@ -40,10 +36,6 @@ class UsersController < ApiController
   def user_params
     params.require(:user).permit(User::PERMIT_COLUMNS)
   end 
-
-  def auth_params
-    params.require(:auth).permit(Auth::PERMIT_COLUMNS)
-  end
 
   def load_user
     @user = User.find_by(id: params[:id])
