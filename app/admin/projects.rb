@@ -15,5 +15,21 @@ ActiveAdmin.register Project do
     actions
   end
 
+  show do
+    attributes_table do
+      
+      row :title
+      row "담당 튜터" do |project|
+        project.tutor
+      end
+      row :created_at
+      row :updated_at
+      row :image
+      row :description
+      row "보증금" do |project|
+        number_with_delimiter(project.deposit)
+      end
+    end
+  end
 
 end
