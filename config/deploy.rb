@@ -10,8 +10,6 @@ set :branch, :master
 set :use_sudo, false
 set :deploy_via, :remote_cache
 
-color: :auto, truncate: :auto
-
 set :pty, true
 
 ## Github에 Push되면 안되는 중요한 파일에 있어선 해당 리스트에 추가하는게 좋음.
