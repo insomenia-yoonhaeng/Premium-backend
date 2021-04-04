@@ -4,7 +4,7 @@ class ProjectsController < ApiController
   before_action :load_project, except: %i(index create)
 	
 	def index
-		projects = Project.all
+		projects = Project.ransack(params[:q]).result
 		render json: each_serializer(projects, ProjectSerializer)
 	end
 
@@ -28,7 +28,7 @@ class ProjectsController < ApiController
 
 	def update
 		begin
-			@project.update(project_whitelist)
+			@project.update(project_params)
 			render json: serializer(@project, ProjectSerializer)
 		rescue => exception
 			render json: {error: @project&.errors&.full_messages&.first}, status: :bad_request			
@@ -50,7 +50,7 @@ class ProjectsController < ApiController
 		@project = @current_user.projects.find(params[:id]) if @current_user.project.present?
 	end
 
-	def project_whitelist
+	def project_params
 	 params.require(:project).permit(Project::PERMIT_COLUMNS)
 	end
 

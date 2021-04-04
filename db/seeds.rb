@@ -8,7 +8,7 @@
 #AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
 
 def generate_user
-  ["Tutor","Tutee"].each do |object|
+  %w(Tutor Tutee).each do |object|
     5.times do |i|
       object.constantize.create(
         email: "#{object}#{i+1}@test.com", 
@@ -22,5 +22,22 @@ def generate_user
   end
 end
 
-User.destroy_all
-generate_user
+def generate_projects
+  20.times.each do | i |
+    Project.create(
+      tutor_id: Tutor.ids.shuffle.first,
+      description: "project code name project_#{i}",
+      deposit: 15000,
+      image: File.open("public/image/seedImage/seed#{rand(1..10)}.jpg"),
+      title: "project #{i}",
+      started_at: DateTime.now,
+      duration: 60,
+      experience_period: 14
+    )
+  end
+end
+
+#User.destroy_all
+#generate_user
+Project.destroy_all
+generate_projects
