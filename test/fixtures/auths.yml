@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  authable: one
+  authable_type: Authable
+
+two:
+  description: MyString
+  authable: two
+  authable_type: Authable
