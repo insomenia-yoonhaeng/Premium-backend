@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   resources :users
 	resources :projects
   resources :auths
+  resources :categories
 end
