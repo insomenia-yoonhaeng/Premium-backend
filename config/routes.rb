@@ -9,4 +9,8 @@ Rails.application.routes.draw do
   resources :users
 	resources :projects
   resources :auths
+  resources :books do
+    get :get_list, on: :collection
+  end
+
 end
