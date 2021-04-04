@@ -27,7 +27,7 @@ set :keep_releases, 5
 
 # set :rvm_ruby_version, 'ruby-2.6.5'
 # set :rvm_type, :user
-# set :passenger_restart_with_touch, true
+set :passenger_restart_with_touch, true
 # set :rvm_bin_path, `which rvm`
 
 ## [Rails Version 5.2 ~] master.key 파일을 EC2 서버로 Upload
