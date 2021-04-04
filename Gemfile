@@ -43,6 +43,15 @@ gem 'fog-aws'
 gem 'chromedriver-helper'
 gem 'selenium-webdriver'
 
+gem 'capistrano', '3.14.1'
+gem 'capistrano-rails'
+gem 'capistrano-passenger', '~> 0.2.0'
+gem 'capistrano-webpacker-precompile', require: false
+gem 'capistrano-bundler'
+gem 'capistrano-rbenv'
+gem 'capistrano-rails-collection'
+gem 'capistrano-figaro-yml'
+gem 'capistrano-database-yml'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

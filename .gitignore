@@ -29,4 +29,6 @@
 /config/database.yml
 /public/uploads/*
 
+/config/deploy/*
+
 /db/schema.rb
