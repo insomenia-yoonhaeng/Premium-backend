@@ -22,8 +22,8 @@ def generate_user
   end
 end
 
-def generate_projects
-  20.times.each do | i |
+def generate_project
+  5.times.each do | i |
     Project.create(
       tutor_id: Tutor.ids.shuffle.first,
       description: "project code name project_#{i}",
@@ -37,7 +37,39 @@ def generate_projects
   end
 end
 
+def generate_category
+  %w(국어 수학 영어 과학탐구 사회탐구 기타).each do |title|
+    Category.create(title: title)
+  end
+end
+
 #User.destroy_all
 #generate_user
-Project.destroy_all
-generate_projects
+#Project.destroy_all
+#generate_projects
+
+def generate_seed
+  puts "생성시킬 모델을 입력해주세요(끝내려면 done를 입력해주세요)"
+  keyword = '', models = Array.new
+  while true
+    begin
+      input = STDIN.gets.chomp
+      break if input == 'done'
+      input.classify.constantize
+    rescue Exception
+      puts "존재하지 않는 모델입니다."
+    else
+      models << input.classify
+    end
+  end
+  User.destroy_all
+  puts "유저 삭제 완료"
+  generate_user
+  models.each do |model|
+    model.constantize.send("destroy_all")
+    send("generate_#{model.downcase}")
+    puts "#{model} seed 생성 완료"
+  end
+end
+
+generate_seed

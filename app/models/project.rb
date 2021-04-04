@@ -6,4 +6,5 @@ class Project < ApplicationRecord
 	
   belongs_to :tutor, optional: true
 	has_many :project_tutees, dependent: :nullify
+	belongs_to :category, optional: true
 end
