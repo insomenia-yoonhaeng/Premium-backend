@@ -6,8 +6,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   process :right_orientation
-  storage :file
-
+  if Rails.env.production? 
+    storage :fog
+  else
+    storage :file
+  end
 
   version :square do
     process resize_to_fill: [1024,1024]
@@ -17,9 +20,9 @@ class ImageUploader < CarrierWave::Uploader::Base
     process resize_to_fill: [1024,768]
   end
 
-  version :ratio do
-    process resize_to_fit: [1600,1600]
-  end
+  # version :ratio do
+  #   process resize_to_fit: [1600,1600]
+  # end
 
   version :small do
     process resize_to_fit: [250,250]
