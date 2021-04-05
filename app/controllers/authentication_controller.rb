@@ -9,7 +9,7 @@ class AuthenticationController < ApiController
     @user = User.find_by(email: authenticate_params[:email])
 		if @user&.authenticate(authenticate_params[:password])
 			Rails.cache.write 'current_user', @user, expires_in: 7.hour
-			render json: {token: create_token(@user), name: @user.name}, status: :ok
+			render json: {token: create_token(@user), name: @user.name, type: @user.type, status: @user.status}, status: :ok
 		else 
 			render json: {error: 'unauthorized'}, status: :unauthorized
 		end
