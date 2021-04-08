@@ -1,24 +1,37 @@
-# README
+# About Premium Server
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
++ content
+  - [Application Version](#Application Version)
+  - [Environment](#Enviroment)
+  - [IDE](#IDE)
 
-Things you may want to cover:
+# Application Version
 
-* Ruby version
+```
++ Rails version             6.0.3.4
++ Ruby version              ruby 2.6.5p114 (2019-10-01 revision 67812) [x86_64-darwin16]
++ RubyGems version          3.0.3
++ Rack version              2.2.3
++ Bundler                   2.2.6
++ Database adapter          postgres (PostgreSQL) 13.2
++ nginx version            nginx/1.14.0 (Ubuntu 18.04 LTS)
++ Phusion Passenger(R) 6.0.8
 
-* System dependencies
+```
 
-* Configuration
+# Environment
+```
++ ProductName:	Mac OS X
++ ProductVersion:	10.15.7
++ BuildVersion:	19H15
+```
 
-* Database creation
+# IDE
 
-* Database initialization
++ Visual Studio Code
 
-* How to run the test suite
+# Address
 
-* Services (job queues, cache servers, search engines, etc.)
+[api server](http://52.79.97.255)
 
-* Deployment instructions
-
-* ...
+[admin page](http://52.79.97.255/admin)
