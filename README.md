@@ -1,7 +1,7 @@
 # About Premium Server
 
 + content
-  - [Application Version](#Application Version)
+  - [ApplicationVersion](#ApplicationVersion)
   - [Environment](#Enviroment)
   - [IDE](#IDE)
 
