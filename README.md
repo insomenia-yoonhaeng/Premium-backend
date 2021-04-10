@@ -1,11 +1,11 @@
 # About Premium Server
 
 + content
-  - [Application Version](#Application Version)
+  - [ApplicationVersion](#ApplicationVersion)
   - [Environment](#Enviroment)
   - [IDE](#IDE)
 
-# Application Version
+# ApplicationVersion
 
 ```
 + Rails version             6.0.3.4
