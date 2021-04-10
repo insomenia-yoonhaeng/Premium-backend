@@ -1,3 +1,6 @@
+require 'rake'
+PremiumBackend::Application.load_tasks
+
 class BooksController < ApiController
   before_action :authorize_request
   before_action :check_books, only: %i(create update)
@@ -18,10 +21,10 @@ class BooksController < ApiController
   def update;end
 
   def get_list # 목차 가져오기
-    #추후에 path 넘겨받는 식으로 진행할 예정
-    #path = params[:url]
+    # https://sampatbadhe.medium.com/rake-task-invoke-or-execute-419cd689c3bd
     path = "https://search.daum.net/search?w=bookpage&bookId=848781&q=%EC%A4%91%ED%95%99+%EC%88%98%ED%95%99+2-1%282021%29%28%EA%B0%9C%EB%85%90%EC%9B%90%EB%A6%AC%29"
-    system(`rake "crawl:example[#{path.gsub(/\A"|"\z/,'')}]"`)
+    Rake::Task['crawl:example'].execute(url: path, book: Book.find(11))
+    render json: serializer(Book.find(11), BookSerializer), status: :ok
   end
 
   private 
