@@ -47,7 +47,7 @@ class ProjectsController < ApiController
 	protected
 
 	def load_project
-		@project = @current_user.projects.find(params[:id]) if @current_user.project.present?
+		@project = @current_user.projects.find(params[:id]) if @current_user.projects.present?
 	end
 
 	def project_params
