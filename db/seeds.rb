@@ -29,10 +29,10 @@ def generate_project
   5.times.each do |i|
     Project.create(
       tutor_id: Tutor.ids.shuffle.first,
-      description: "project code name project_",
+      description: "project code name project_#{i}",
       deposit: 15000,
-      #image: File.open("public/image/seedImage/seed#{rand(1..10)}.jpg"),
-      title: "project 3",
+      image: File.open("public/image/seedImage/seed#{rand(1..10)}.jpg"),
+      title: "project #{i}",
       started_at: DateTime.now,
       duration: 60,
       experience_period: 14,
