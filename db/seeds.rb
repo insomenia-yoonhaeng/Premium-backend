@@ -26,16 +26,17 @@ def generate_user
 end
 
 def generate_project
-  5.times.each do | i |
+  5.times.each do |i|
     Project.create(
       tutor_id: Tutor.ids.shuffle.first,
-      description: "project code name project_#{i}",
+      description: "project code name project_",
       deposit: 15000,
-      image: File.open("public/image/seedImage/seed#{rand(1..10)}.jpg"),
-      title: "project #{i}",
+      #image: File.open("public/image/seedImage/seed#{rand(1..10)}.jpg"),
+      title: "project 3",
       started_at: DateTime.now,
       duration: 60,
-      experience_period: 14
+      experience_period: 14,
+      category_id: Category.ids.shuffle.first
     )
   end
 end
