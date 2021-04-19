@@ -40,6 +40,9 @@ ko:
         duration: 기간
         created_at: 생성일자
         updated_at: 수정일자
+        category_id: 카테고리 번호
+        required_time: 최소학습시간
+        review_weight: 복습강도
       auth:
         description: 인증방식
         authable_type: 인증 주체
@@ -60,6 +63,23 @@ ko:
         updated_at: 수정일자
       category:
         title: 카테고리 이름
+        created_at: 생성일자
+        updated_at: 수정일자
+      option:
+        tutor_id: 담당튜터
+        chapter_id: 단원
+        weight: 단원중요도
+        status: 진도 상태
+        created_at: 생성일자
+        updated_at: 수정일자
+      book:
+        author: 저자
+        content: 구성
+        title: 제목
+        image: 대표이미지
+        publisher: 출판사
+        isbn: 고유번호
+        
 
     models:
       user: 사용자
@@ -68,6 +88,10 @@ ko:
       tutor: 튜터
       tutee: 튜티
       category: 카테고리
+      option: 일정생성옵션
+      chapter: 목차
+      book: 책
+
       
     enum:
       user:

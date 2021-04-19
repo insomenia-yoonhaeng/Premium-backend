@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.3', '>= 6.0.3.5'
+gem 'rails', '6.0.3.4'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -39,12 +39,27 @@ gem 'devise-i18n'
 
 gem 'ransack'
 gem 'fog-aws'
+ 
+gem 'chromedriver-helper'
+gem 'selenium-webdriver'
+
+gem 'capistrano', '3.14.1'
+gem 'capistrano-rails'
+gem 'capistrano-passenger', '~> 0.2.0'
+gem 'capistrano-webpacker-precompile', require: false
+gem 'capistrano-bundler'
+gem 'capistrano-rbenv'
+gem 'capistrano-rails-collection'
+gem 'capistrano-figaro-yml'
+gem 'capistrano-database-yml'
+
+gem 'faker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails'
-  gem 'faker'
+  
   gem 'factory_girl_rails'
   gem 'database_cleaner'
 end
@@ -60,3 +75,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'carrierwave'
 gem 'mini_magick'
+
+gem 'activerecord-import'
