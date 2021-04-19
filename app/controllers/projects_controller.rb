@@ -4,7 +4,7 @@ class ProjectsController < ApiController
 	
 	def index
 		begin
-			projects = Project.ransack(params[:q]).result
+			projects = Project.ransack(params[:q])&.result
 			render json: each_serializer(projects, ProjectSerializer)
 		rescue => exception
 			render json: { error: projects&.errors&.full_messages&.first }, status: :bad_request
@@ -51,7 +51,7 @@ class ProjectsController < ApiController
 	protected
 
 	def load_project
-		project = current_user.projects.find(params[:id]) if current_user.project.present?
+		project = current_user.projects.find(params[:id]) if current_user.projects.present?
 	end
 
 	def project_params

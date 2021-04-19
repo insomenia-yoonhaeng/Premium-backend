@@ -58,6 +58,8 @@ GEM
     activerecord (6.0.3.4)
       activemodel (= 6.0.3.4)
       activesupport (= 6.0.3.4)
+    activerecord-import (1.0.7)
+      activerecord (>= 3.2)
     activestorage (6.0.3.4)
       actionpack (= 6.0.3.4)
       activejob (= 6.0.3.4)
@@ -357,6 +359,7 @@ DEPENDENCIES
   actionpack-action_caching
   actionpack-page_caching
   activeadmin
+  activerecord-import
   arctic_admin
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.2)

@@ -26,9 +26,15 @@ namespace :crawl do
 
     book = args[:book]
 
+    chapters = []
+
     @list_content.split("\n") do |chapter|
-      book.chapters.create(title: chapter) unless chapter == ""
+      chapters << Chapter.new(title: chapter)
     end
+
+    # bulk insert
+    book.chapters.import chapters
+
     @browser.quit
   end
  
