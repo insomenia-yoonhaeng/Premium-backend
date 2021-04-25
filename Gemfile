@@ -46,7 +46,7 @@ gem 'omniauth-kakao', git: "https://github.com/DevStarSJ/omniauth-kakao"
 
 gem 'ransack'
 gem 'fog-aws'
-
+gem 'listen', '~> 3.2'
 gem 'chromedriver-helper'
 gem 'selenium-webdriver'
 
