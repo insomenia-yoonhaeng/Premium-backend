@@ -37,9 +37,16 @@ gem 'arctic_admin'
 
 gem 'devise-i18n'
 
+gem 'jwt_sessions'
+# gem 'pry', '~> 0.13.1'
+gem 'pry-rails'
+gem 'redis'
+gem 'omniauth'
+gem 'omniauth-kakao', git: "https://github.com/DevStarSJ/omniauth-kakao"
+
 gem 'ransack'
 gem 'fog-aws'
- 
+
 gem 'chromedriver-helper'
 gem 'selenium-webdriver'
 
@@ -52,7 +59,7 @@ gem 'capistrano-rbenv'
 gem 'capistrano-rails-collection'
 gem 'capistrano-figaro-yml'
 gem 'capistrano-database-yml'
-
+gem 'rubocop', require: false
 gem 'faker'
 
 group :development, :test do

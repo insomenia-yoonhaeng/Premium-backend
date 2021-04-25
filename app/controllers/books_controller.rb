@@ -1,5 +1,6 @@
 class BooksController < ApiController
-  before_action :authorize_request
+  before_action :current_api_user
+  before_action :authorize_check_request
   before_action :check_books, only: %i(create update)
 
   def index
