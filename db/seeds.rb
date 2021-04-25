@@ -5,7 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-#AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
+AdminUser.destroy_all
+p "어드민 삭제"
+AdminUser.create!(email: 'admin@ddasoop.com', password: 'password', password_confirmation: 'password') 
+p "어드민 유저 생성"
 
 def generate_user
   %w(Tutor Tutee).each do |object|

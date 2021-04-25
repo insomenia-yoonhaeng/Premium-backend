@@ -1,9 +1,11 @@
 class UsersController < ApiController
-  before_action :authorize_request, except: :create
+  before_action :current_api_user, except: :create
+  before_action :authorize_check_request, except: :create
   before_action :load_user, except: %i(index create)
 
   def index
     @users = User.all
+    @current_api_user
     render json: each_serializer(@users, UserSerializer), status: :ok
   end
 
@@ -29,6 +31,16 @@ class UsersController < ApiController
   def destroy
     result = (@user.destroy) ? [@user, :ok] : [@user.destroy.errors.full_messages, ""]
     send_response(result)
+  end
+
+
+  def get_current_user
+    begin
+      @current_user
+      render json: serializer(@current_user, UserSerializer, [:id, :name, :type]), status: :ok
+    rescue => exception
+      render json: {errors: @current_user&.errors&.full_messages&.first}, status: :bad_request
+    end
   end
 
   private
