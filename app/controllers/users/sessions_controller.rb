@@ -15,7 +15,7 @@ class Users::SessionsController < Devise::SessionsController
         payload = { user_id: user.id}
         session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
         tokens = session.login
-        render json: { csrf: tokens[:csrf], token: tokens[:access] } and return
+        render json: { csrf: tokens[:csrf], token: tokens[:access], is_omniauth: false } and return
       else
         not_found
       end

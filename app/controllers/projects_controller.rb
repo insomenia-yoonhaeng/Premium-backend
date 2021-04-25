@@ -6,6 +6,7 @@ class ProjectsController < ApiController
 	
 	def index
 		begin
+			Rails.logger.info "Article Information: #{params[:q]}" if params[:q].present?
 			projects = Project.ransack(params[:q])&.result
 			render json: each_serializer(projects, ProjectSerializer)
 		rescue => exception
