@@ -29,7 +29,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
       end
     rescue ActiveRecord::NotNullViolation => exception
-      debugger
       puts exception
       Rails.logger.info exception
       render json: { error: "유저 정보에는 이름, 이메일, 패스워드가 포함되어 있어야 합니다" }, status: :not_found and return

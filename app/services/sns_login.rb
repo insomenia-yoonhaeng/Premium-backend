@@ -9,7 +9,6 @@ class SnsLogin
 
   def find_user_oauth
     identity = build_identity
-    debugger
     user = @signed_in_resource ? @signed_in_resource : identity.user
     if user.nil?
       user = User.create!(get_auth_params)

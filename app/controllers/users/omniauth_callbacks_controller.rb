@@ -19,7 +19,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def auth_login(provider)
     sns_login = SnsLogin.new(request.env["omniauth.auth"], current_user) # 서비스 레이어로 작업했습니다.
     @user = sns_login.find_user_oauth
-    debugger
     if @user.persisted?
       if @user.sign_in_count == 0 # sns로 첫 가입 시 별도 처리하기 위해서 추가했습니다.
         # 회원 가입 진행
