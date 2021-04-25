@@ -1,5 +1,5 @@
 class AuthsController < ApiController
-  before_action :current_api_user
+  # before_action :current_api_user
   before_action :authorize_check_request
   before_action :check_user_type, only: %i(create update)
   before_action :load_auth, only: %i(update show)

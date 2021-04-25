@@ -3,19 +3,6 @@
 #   before_action :authorize_request, only: %i(logout get_current_user)
 #   ## JWT 토큰 생성을 위한 Devise 유저 정보 검증
   
-<<<<<<< HEAD
-  def login
-		return unless authenticate_params
-    ## body로 부터 받은 json 형식의 params를 parsing
-    @user = User.find_by(email: authenticate_params[:email])
-		if @user&.authenticate(authenticate_params[:password])
-			Rails.cache.write 'current_user', @user, expires_in: 7.hour
-			render json: {token: create_token(@user), name: @user.name, type: @user.type, status: @user.status}, status: :ok
-		else 
-			render json: {error: 'unauthorized'}, status: :unauthorized
-		end
-  end
-=======
 #   def login
 # 		return unless authenticate_params
 #     ## body로 부터 받은 json 형식의 params를 parsing
@@ -27,7 +14,6 @@
 # 			render json: {error: 'unauthorized'}, status: :unauthorized
 # 		end
 #   end
->>>>>>> bcf4dc442405ed15862223e6c76a0eea09839aed
 
 #   def logout
 #     if Rails.cache.read 'current_user'

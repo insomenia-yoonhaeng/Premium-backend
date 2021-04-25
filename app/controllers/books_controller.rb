@@ -2,7 +2,7 @@ require 'rake'
 PremiumBackend::Application.load_tasks
 
 class BooksController < ApiController
-  before_action :current_api_user
+  # before_action :current_api_user
   before_action :authorize_check_request
   before_action :check_books, only: %i(create update)
   before_action :load_book, except: %i(index create get_list)

@@ -25,32 +25,21 @@ class ApiController < ActionController::API
   end
   
   protected
-
-
-  def current_api_user
-    return unless request.headers.include? "Authorization"
+  
+  def authorize_check_request
+    raise JWTSessions::Errors::Unauthorized unless request.headers.include? "Authorization"
     begin
       authorize_access_request!
       @current_user ||= User.find(payload["user_id"])
-    rescue => exception
-      puts exception.class
-      Rails.logger.info exception
-      @current_user = nil
-    end
-  end
-
-  
-  def authorize_check_request
-    render json: { errors: "유효하지 않은 토큰입니다"}, status: :unauthorized unless request.headers.include? "Authorization"
-    begin
-      authorize_access_request! 
     rescue JWTSessions::Errors, ActiveRecord::RecordNotFound, JWT::DecodeError => exception
       puts exception.class
       Rails.logger.info exception
+      @current_user = nil
       raise JWTSessions::Errors::Unauthorized
     rescue => exception.class
       puts exception
       Rails.logger.info exception
+      @current_user = nil
     end
   end
 

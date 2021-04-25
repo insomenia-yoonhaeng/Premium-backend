@@ -1,5 +1,5 @@
 class UsersController < ApiController
-  before_action :current_api_user, except: :create
+  # before_action :current_api_user, except: :create
   before_action :authorize_check_request, except: :create
   before_action :load_user, except: %i(index create)
 
