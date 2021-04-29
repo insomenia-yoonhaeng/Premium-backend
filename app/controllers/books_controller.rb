@@ -53,7 +53,7 @@ class BooksController < ApiController
     if book.chapters.present?
       render json: serializer(book, BookSerializer), status: :ok
     else
-      Rake::Task['crawl:example'].execute(url: params[:url], book: book)
+      Rake::Task['crawl:example'].execute(url: book.url, book: book)
       Rake::Task['crawl:example'].reenable # rake file 한번 만 실행
       render json: serializer(book, BookSerializer), status: :ok
     end
