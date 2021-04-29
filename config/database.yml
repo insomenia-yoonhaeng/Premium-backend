@@ -1,0 +1,29 @@
+## config/database.yml
+## Database은 Environment에 따라 분리 시켜서 해주는게 가장 좋습니다.
+
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: postgresql
+  host: localhost
+  encoding: utf8
+  username: <%= ENV["DB_USER_NAME"] %>
+  password: <%= ENV["DB_USER_PASSWD"] %>
+  pool: 5
+
+development:
+  <<: *default
+  database: <%= ENV["DB_NAME"] %>_<%= Rails.env %>
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: <%= ENV["DB_NAME"] %>_<%= Rails.env %>
+
+production:
+  <<: *default
+  database: <%= ENV["DB_NAME"] %>_<%= Rails.env %>
