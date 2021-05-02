@@ -6,7 +6,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def after_sign_in_path_for(resource)
     auth = request.env['omniauth.auth']
     @identity = Identity.find_for_oauth(auth)
-    if current_user.persisted?
+    if @current_user.persisted?
       root_path
     else
       new_user_registration_path
@@ -17,7 +17,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   ## TODO SIGN_IN & SIGN_UP 
   ## 회원 검증 끝났을 때 oauth에서 보통 어떤식으로 진행...? 회원 가입 시 바로 로그인까지? or 회원 가입 후 로그인 다시 진행?
   def auth_login(provider)
-    sns_login = SnsLogin.new(request.env["omniauth.auth"], current_user) # 서비스 레이어로 작업했습니다.
+    sns_login = SnsLogin.new(request.env["omniauth.auth"], nil) # 서비스 레이어로 작업했습니다.
     @user = sns_login.find_user_oauth
     begin
       if @user.persisted?

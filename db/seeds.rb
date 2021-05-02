@@ -47,6 +47,10 @@ def generate_category
   end
 end
 
+def generate_attendance
+  Tutee.all.each{ |tutee| tutee.attendances.create(project_id: Project.all.sample.id) }
+end
+
 #User.destroy_all
 #generate_user
 #Project.destroy_all

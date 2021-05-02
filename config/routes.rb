@@ -20,13 +20,18 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   # post 'users/sign_in', to: 'authentication#login'
   # delete 'users/sign_out', to: 'authentication#logout'
-  # post 'users/sign_up', to: 'users#create'
+  # post 'users/sign_up', to: 'ussers#create'
   get '/get_current_user', to: 'users#get_current_user'
   resources :users, except: :create
 	resources :projects
   resources :auths
+  resources :categories
   resources :books do
     get :get_list, on: :collection
   end
-  
+  resources :attendances do
+    delete :destroy, on: :collection
+    patch :update, on: :collection
+  end
+
 end
