@@ -16,7 +16,7 @@ class ProjectsController < ApiController
 
 	def create
 		begin
-			project = current_user&.projects&.create(project_params)
+			project = @current_user&.projects&.create(project_params)
 			render json: serializer(project, ProjectSerializer) 
 		rescue => exception
 			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request
@@ -54,7 +54,7 @@ class ProjectsController < ApiController
 	protected
 
 	def load_project
-		project = current_user.projects.find(params[:id]) if current_user.projects.present?
+		project = @current_user.projects.find(params[:id]) if @current_user.projects.present?
 	end
 
 	def project_params
