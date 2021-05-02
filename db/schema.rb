@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_29_102450) do
+ActiveRecord::Schema.define(version: 2021_05_02_034941) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,16 @@ ActiveRecord::Schema.define(version: 2021_04_29_102450) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "attendances", force: :cascade do |t|
+    t.bigint "project_id"
+    t.bigint "tutee_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "status", default: 0
+    t.index ["project_id"], name: "index_attendances_on_project_id"
+    t.index ["tutee_id"], name: "index_attendances_on_tutee_id"
   end
 
   create_table "auths", force: :cascade do |t|
@@ -115,15 +125,6 @@ ActiveRecord::Schema.define(version: 2021_04_29_102450) do
     t.index ["tutor_id"], name: "index_options_on_tutor_id"
   end
 
-  create_table "project_tutees", force: :cascade do |t|
-    t.bigint "project_id"
-    t.bigint "tutee_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_project_tutees_on_project_id"
-    t.index ["tutee_id"], name: "index_project_tutees_on_tutee_id"
-  end
-
   create_table "projects", force: :cascade do |t|
     t.bigint "tutor_id", null: false
     t.string "description"
@@ -168,12 +169,12 @@ ActiveRecord::Schema.define(version: 2021_04_29_102450) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "attendances", "users", column: "tutee_id"
   add_foreign_key "chapters", "books"
   add_foreign_key "identities", "users"
   add_foreign_key "likes", "users"
   add_foreign_key "options", "chapters"
   add_foreign_key "options", "users", column: "tutor_id"
-  add_foreign_key "project_tutees", "users", column: "tutee_id"
   add_foreign_key "projects", "categories"
   add_foreign_key "projects", "users", column: "tutor_id"
 end

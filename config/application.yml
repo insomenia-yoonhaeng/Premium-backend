@@ -7,3 +7,5 @@ AWS_S3_END_POINT: "https://s3-ap-northeast-2.amazonaws.com"
 DB_NAME: "Premium_backend"
 DB_USER_NAME: "admin"
 DB_USER_PASSWD: "0000"
+
+KAKAO_CLIENT_ID: dddfee223d24c8d197c5764de547993b

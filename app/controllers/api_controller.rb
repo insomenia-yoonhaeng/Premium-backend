@@ -1,5 +1,4 @@
 class ApiController < ActionController::API
-  #skip_before_action :verify_authenticity_token
   before_action :configure_permitted_parameters, if: :devise_controller?
   # before_action :authorize_access_request!, if: :authorize_controller?
   include JWTSessions::RailsAuthorization
@@ -12,7 +11,7 @@ class ApiController < ActionController::API
   def check_auth
     # 튜터가 인증이 되었는지 & auth 모델이 있는지 체크
     ## false일 경우는 인증이 되어 있지 않은 경우 
-    (@current_user.is_a? Tutor) ? (@current_user.auths.present? && @current_user.approved?) : true
+    (@current_user.is_a? Tutor) ? (@current_user.auths.present? && @current_user.approved?) : false
   end
 
 	def check_user_type
@@ -36,7 +35,7 @@ class ApiController < ActionController::API
       Rails.logger.info exception
       @current_user = nil
       raise JWTSessions::Errors::Unauthorized
-    rescue => exception.class
+    rescue => exception
       puts exception
       Rails.logger.info exception
       @current_user = nil
