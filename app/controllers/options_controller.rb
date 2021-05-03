@@ -1,18 +1,22 @@
 class OptionsController < ApiController
 
+  before_action :check_auth, only: %i[:create]
+
   # {
   #   "option": {
-  #               "options": [
-  #                           {"title": "A 주어와 동사, 수 일치, 시제", "weight": 1}, 
-  #                           {"title": "B 태, 조동사, 가정법", "weight": 1}
-  #                          ]
-  #             }
+  #     "options": [
+  #        {"weight": 1, chapter_id: 4}, 
+  #        {"weight": 1, chapter_id: 5}
+  #     ]
+  #   }
   # }
 
   def create 
+    options = []
     option_params.dig(:options).each do |option|
-      # bulk insert
+      options << @current_user.options.bulid(weight: option.weight, chapter_id: option.chapter_id)
     end
+    Option.import options
   end
 
   def option_params

@@ -51,7 +51,11 @@ class ProjectsController < ApiController
 			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request			
 		end
 	end
-	
+
+	def create_schedule
+		project.create_schedule
+	end	
+
 	protected
 
 	def load_project

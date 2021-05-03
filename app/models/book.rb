@@ -6,6 +6,7 @@ class Book < ApplicationRecord
 
   # 책 없어지면, 챕터도 필요없는 것
   has_many :chapters, dependent: :destroy
+  has_many :projects, dependent: :nullify
 
   def crawl_book_index
     Selenium::WebDriver::Chrome.driver_path = "/usr/local/bin/chromedriver"
@@ -41,9 +42,6 @@ class Book < ApplicationRecord
 
     # bulk insert
     Chapter.import chapters
-
-    puts 1
-
 
   end
 

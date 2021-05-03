@@ -44,7 +44,7 @@ class BooksController < ApiController
   end
 
   def get_list # 목차 가져오기
-    title = params.dig(:book, :title)
+    title = params.dig(:book, :title) 
     book = Book.find_by(title: title)
     if book.chapters.present?
       render json: serializer(book, BookSerializer, context: { chapters: Book.find_by(title: title).chapters }), status: :ok

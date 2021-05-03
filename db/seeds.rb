@@ -47,6 +47,10 @@ def generate_category
   end
 end
 
+def generate_books
+  
+end
+
 def generate_attendance
   Tutee.all.each{ |tutee| tutee.attendances.create(project_id: Project.all.sample.id) }
 end
