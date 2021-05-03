@@ -2,7 +2,7 @@ class ProjectsController < ApiController
 	# before_action :current_api_user
   before_action :authorize_check_request
 	before_action :check_user_type, except: %i(index show)
-  #before_action :load_project, except: %i(index create)
+  before_action :load_project, except: %i(index create)
 	
 	def index
 		begin
@@ -53,7 +53,15 @@ class ProjectsController < ApiController
 	end
 
 	def create_schedule
-		project.create_schedule
+		begin
+			project.create_schedule
+			render json {
+				options: project.tutor.options,
+				project: serializer(project, ProjectSerializer)
+			}, status: :ok
+		rescue => exception
+			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request
+		end
 	end	
 
 	protected
