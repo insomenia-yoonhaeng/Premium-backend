@@ -1,11 +1,12 @@
 class ProjectsController < ApiController
-	before_action :current_api_user
+	# before_action :current_api_user
   before_action :authorize_check_request
 	before_action :check_user_type, except: %i(index show)
   before_action :load_project, except: %i(index create)
 	
 	def index
 		begin
+			Rails.logger.info "Article Information: #{params[:q]}" if params[:q].present?
 			projects = Project.ransack(params[:q])&.result
 			render json: each_serializer(projects, ProjectSerializer)
 		rescue => exception
@@ -15,7 +16,7 @@ class ProjectsController < ApiController
 
 	def create
 		begin
-			project = current_user&.projects&.create(project_params)
+			project = @current_user&.projects&.create(project_params)
 			render json: serializer(project, ProjectSerializer) 
 		rescue => exception
 			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request
@@ -53,7 +54,7 @@ class ProjectsController < ApiController
 	protected
 
 	def load_project
-		project = current_user.projects.find(params[:id]) if current_user.projects.present?
+		project = @current_user.projects.find(params[:id]) if @current_user.projects.present?
 	end
 
 	def project_params

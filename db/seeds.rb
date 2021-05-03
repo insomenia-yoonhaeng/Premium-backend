@@ -26,7 +26,7 @@ def generate_user
 end
 
 def generate_project
-  5.times.each do | i |
+  5.times.each do |i|
     Project.create(
       tutor_id: Tutor.ids.shuffle.first,
       description: "project code name project_#{i}",
@@ -35,7 +35,8 @@ def generate_project
       title: "project #{i}",
       started_at: DateTime.now,
       duration: 60,
-      experience_period: 14
+      experience_period: 14,
+      category_id: Category.ids.shuffle.first
     )
   end
 end
@@ -44,6 +45,10 @@ def generate_category
   %w(국어 수학 영어 과학탐구 사회탐구 기타).each do |title|
     Category.create(title: title)
   end
+end
+
+def generate_attendance
+  Tutee.all.each{ |tutee| tutee.attendances.create(project_id: Project.all.sample.id) }
 end
 
 #User.destroy_all

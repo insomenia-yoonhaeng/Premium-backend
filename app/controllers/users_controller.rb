@@ -1,5 +1,4 @@
 class UsersController < ApiController
-  before_action :current_api_user, except: :create
   before_action :authorize_check_request, except: :create
   before_action :load_user, except: %i(index create)
 
@@ -36,7 +35,6 @@ class UsersController < ApiController
 
   def get_current_user
     begin
-      @current_user
       render json: serializer(@current_user, UserSerializer, [:id, :name, :type]), status: :ok
     rescue => exception
       render json: {errors: @current_user&.errors&.full_messages&.first}, status: :bad_request

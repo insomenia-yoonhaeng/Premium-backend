@@ -1,5 +1,4 @@
 class ApiController < ActionController::API
-  #skip_before_action :verify_authenticity_token
   before_action :configure_permitted_parameters, if: :devise_controller?
   # before_action :authorize_access_request!, if: :authorize_controller?
   include JWTSessions::RailsAuthorization
@@ -12,7 +11,7 @@ class ApiController < ActionController::API
   def check_auth
     # 튜터가 인증이 되었는지 & auth 모델이 있는지 체크
     ## false일 경우는 인증이 되어 있지 않은 경우 
-    (@current_user.is_a? Tutor) ? (@current_user.auths.present? && @current_user.approved?) : true
+    (@current_user.is_a? Tutor) ? (@current_user.auths.present? && @current_user.approved?) : false
   end
 
 	def check_user_type
@@ -25,32 +24,21 @@ class ApiController < ActionController::API
   end
   
   protected
-
-
-  def current_api_user
-    return unless request.headers.include? "Authorization"
+  
+  def authorize_check_request
+    raise JWTSessions::Errors::Unauthorized unless request.headers.include? "Authorization"
     begin
       authorize_access_request!
       @current_user ||= User.find(payload["user_id"])
-    rescue => exception
-      puts exception.class
-      Rails.logger.info exception
-      @current_user = nil
-    end
-  end
-
-  
-  def authorize_check_request
-    render json: { errors: "유효하지 않은 토큰입니다"}, status: :unauthorized unless request.headers.include? "Authorization"
-    begin
-      authorize_access_request! 
     rescue JWTSessions::Errors, ActiveRecord::RecordNotFound, JWT::DecodeError => exception
       puts exception.class
       Rails.logger.info exception
+      @current_user = nil
       raise JWTSessions::Errors::Unauthorized
-    rescue => exception.class
+    rescue => exception
       puts exception
       Rails.logger.info exception
+      @current_user = nil
     end
   end
 
