@@ -55,7 +55,7 @@ class BooksController < ApiController
     else
       Rake::Task['crawl:example'].execute(url: params[:url], book: book)
       Rake::Task['crawl:example'].reenable # rake file 한번 만 실행
-      render json: serializer(book, BookSerializer), status: :ok
+      render json: serializer(book, BookSerializer), status: :ok 
     end
   end
 
