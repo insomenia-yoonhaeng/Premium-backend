@@ -23,7 +23,9 @@ Rails.application.routes.draw do
   # post 'users/sign_up', to: 'ussers#create'
   get '/get_current_user', to: 'users#get_current_user'
   resources :users, except: :create
-	resources :projects
+	resources :projects do
+    get :create_schedule
+  end
   resources :auths
   resources :categories
   resources :books do
