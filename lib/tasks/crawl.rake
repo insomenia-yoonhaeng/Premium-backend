@@ -13,7 +13,7 @@ namespace :crawl do
     
     # 셀레니움 + 크롬 + 헤드리스 옵션으로 브라우저 실행
     @browser = Selenium::WebDriver.for :chrome, options: options
-    
+
     @browser.navigate().to args[:url]
     
     @content = @browser.find_elements(css: "#tabContent > .tab_body > .info_section > .coll_tit")

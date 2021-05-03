@@ -1,8 +1,4 @@
-require 'rake'
-PremiumBackend::Application.load_tasks
-
 class BooksController < ApiController
-  # before_action :current_api_user
   before_action :authorize_check_request
   before_action :check_books, only: %i(create update)
   before_action :load_book, except: %i(index create get_list)
@@ -48,14 +44,13 @@ class BooksController < ApiController
   end
 
   def get_list # 목차 가져오기
-    # https://sampatbadhe.medium.com/rake-task-invoke-or-execute-419cd689c3bd
-    book = Book.find_by(title: params.dig(:book, :title))
+    title = params.dig(:book, :title)
+    book = Book.find_by(title: title)
     if book.chapters.present?
-      render json: serializer(book, BookSerializer), status: :ok
+      render json: serializer(book, BookSerializer, context: { chapters: Book.find_by(title: title).chapters }), status: :ok
     else
-      Rake::Task['crawl:example'].execute(url: params[:url], book: book)
-      Rake::Task['crawl:example'].reenable # rake file 한번 만 실행
-      render json: serializer(book, BookSerializer), status: :ok 
+      book.crawl_book_index
+      render json: serializer(book, BookSerializer, context: { chapters: Book.find_by(title: title).chapters }), status: :ok
     end
   end
 
