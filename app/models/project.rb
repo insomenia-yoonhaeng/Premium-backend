@@ -2,12 +2,12 @@ class Project < ApplicationRecord
 	include ImageUrl
 	include Imageable
 
-	PERMIT_COLUMNS = [:experience_period, :description, :deposit, :image, :title]
+	PERMIT_COLUMNS = [:experience_period, :description, :deposit, :image, :title, :category_id]
 	
   belongs_to :tutor, optional: true
 	has_many :attendances, dependent: :nullify
-	belongs_to :category
-	belongs_to :book
+	belongs_to :category, optional: true
+	belongs_to :book, optional: true
 
 	# chapter 1 : N option
 	# 같은 챕터를 사용하는 서로 다른 튜터가 매긴 옵션
