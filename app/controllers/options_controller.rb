@@ -6,6 +6,6 @@ class OptionsController < ApiController
   end
 
   def option_params
-    params.fetch(:option, {}).permit(options: [:title, :weight])
+    params.fetch(:option, {}).permit(Option::PERMIT_COLUMNS)
   end
 end

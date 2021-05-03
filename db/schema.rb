@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_02_034941) do
+ActiveRecord::Schema.define(version: 2021_05_03_062053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,6 +139,9 @@ ActiveRecord::Schema.define(version: 2021_05_02_034941) do
     t.bigint "category_id"
     t.integer "required_time", default: 0
     t.integer "review_weight", default: 0
+    t.string "mission"
+    t.bigint "book_id"
+    t.index ["book_id"], name: "index_projects_on_book_id"
     t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["tutor_id"], name: "index_projects_on_tutor_id"
   end
@@ -175,6 +178,7 @@ ActiveRecord::Schema.define(version: 2021_05_02_034941) do
   add_foreign_key "likes", "users"
   add_foreign_key "options", "chapters"
   add_foreign_key "options", "users", column: "tutor_id"
+  add_foreign_key "projects", "books"
   add_foreign_key "projects", "categories"
   add_foreign_key "projects", "users", column: "tutor_id"
 end
