@@ -15,7 +15,7 @@ class ProjectsController < ApiController
 
 	def create
 		begin
-			project = @current_user&.projects&.create(project_params)
+			project = @current_user.projects.create(project_params)
 			render json: serializer(project, ProjectSerializer) 
 		rescue => exception
 			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request
@@ -25,9 +25,7 @@ class ProjectsController < ApiController
 	def show
 		# show는 자신의 프로젝트가 아니더라도 접근 가능해야하므로 load_proejct로 참조해오는 것은 적합하지 않음, 체험기간에도 볼 수 있어야하므로
 		begin
-			project = Project.find(params[:id])
-			project.method_a
-			puts "진행이 끝"
+			proejct = Project.find(params[:id])
 			render json: serializer(project, ProjectSerializer)
 		rescue => exception
 			render json: {error: project.errors&.full_messages&.first}, status: :bad_request
