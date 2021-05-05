@@ -34,13 +34,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
             secure: Rails.env.production?,
           )
 
-          render json: { csrf: tokens[:csrf], token: tokens[:access] ,is_omniauth: true } and return
+          render json: { csrf: tokens[:csrf], token: tokens[:access], refresh_token: tokens[:refresh] ,is_omniauth: true } and return
         else
           # 로그인 진행
           payload = { user_id: @user.id}
           session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
           tokens = session.login
-          render json: { csrf: tokens[:csrf], token: tokens[:access],is_omniauth: true } and return
+          render json: { csrf: tokens[:csrf], token: tokens[:access], refresh_token: tokens[:refresh] ,is_omniauth: true } and return
         end
       else
         session["devise.#{provider}_data"] = request.env["omniauth.auth"]

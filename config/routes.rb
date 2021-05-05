@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   # delete 'users/sign_out', to: 'authentication#logout'
   # post 'users/sign_up', to: 'ussers#create'
   get '/get_current_user', to: 'users#get_current_user'
+  post '/refresh', to: 'refresh#create'
   resources :users, except: :create
 	resources :projects
   resources :auths

@@ -2,9 +2,7 @@ require 'rake'
 PremiumBackend::Application.load_tasks
 
 class BooksController < ApiController
-  # before_action :current_api_user
   before_action :authorize_check_request
-  before_action :check_books, only: %i(create update)
   before_action :load_book, except: %i(index create get_list)
   
   def index
@@ -14,7 +12,8 @@ class BooksController < ApiController
   
   def create
     begin
-      @book = Book.create book_params 
+      # @book = Book.where(book_params)
+      @book = Book.find_or_create_by book_params #if @book.blank?
       render json: serializer(@book, BookSerializer) ,status: :ok
     rescue => exception
       render json: {errors: @book&.errors&.full_messages&.first}, status: :bad_request      
@@ -29,14 +28,14 @@ class BooksController < ApiController
     end
   end
   
-  def update
-    begin
-      @book.update(book_params)
-      render json: { status: :ok }
-    rescue => exception
-      render json: {errors: @book&.errors&.full_messages.first}, status: :not_found
-    end
-  end
+  # def update
+  #   begin
+  #     @book.update(book_params)
+  #     render json: { status: :ok }
+  #   rescue => exception
+  #     render json: {errors: @book&.errors&.full_messages.first}, status: :not_found
+  #   end
+  # end
 
   def destroy
     begin
@@ -63,10 +62,6 @@ class BooksController < ApiController
 
   def book_params
     params.require(:book).permit(Book::PERMIT_COLUMNS)
-  end
-
-  def check_books
-    return render json: {result: "이미 책이 존재합니다"}, status: :bad_request if Book.where(title: params.dig(:book,:title)).present?
   end
 
   def load_book

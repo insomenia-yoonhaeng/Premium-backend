@@ -1,3 +1,3 @@
 class ChapterSerializer < Panko::Serializer
-  attributes :title
+  attributes :id, :title
 end

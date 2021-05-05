@@ -17,7 +17,7 @@ class Users::SessionsController < Devise::SessionsController
         payload = { user_id: user.id}
         session = JWTSessions::Session.new(payload: payload, refresh_by_access_allowed: true)
         tokens = session.login
-        render json: { csrf: tokens[:csrf], token: tokens[:access], is_omniauth: false, email: user.email, name: user.name, status: user.status, info: user.info, phone: user.phone , type: user.type} and return
+        render json: { csrf: tokens[:csrf], token: tokens[:access], refresh_token: tokens[:refresh], is_omniauth: false, email: user.email, name: user.name, status: user.status, info: user.info, phone: user.phone , type: user.type} and return
       else
         not_found
       end
@@ -32,7 +32,7 @@ class Users::SessionsController < Devise::SessionsController
         render json: { result: "성공적으로 로그아웃 되었습니다" }, status: :ok and return
       rescue => exception
         puts exception
-        render json: { error: "Not authorized" }, status: :unauthorized and return
+        render json: { error: "현재 로그인된 유저가 없습니다" }, status: :bad_request and return
       end
     end
   end

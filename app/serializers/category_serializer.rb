@@ -1,3 +1,3 @@
 class CategorySerializer < Panko::Serializer
-  attributes :title
+  attributes :id, :title
 end
