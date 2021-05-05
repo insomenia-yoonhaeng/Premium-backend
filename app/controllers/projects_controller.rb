@@ -2,7 +2,7 @@ class ProjectsController < ApiController
 	# before_action :current_api_user
   before_action :authorize_check_request
 	before_action :check_user_type, except: %i(index show)
-  before_action :load_project, except: %i(index create)
+  before_action :load_project, except: %i(index create create_schedule)
 	
 	def index
 		begin
@@ -52,7 +52,8 @@ class ProjectsController < ApiController
 
 	def create_schedule
 		begin
-			project.create_schedule
+			project = @current_user.projects.find(params[:project_id]) if @current_user.projects.present?
+			project.make_schedule
 			render json: {
 				options: project.tutor.options,
 				project: serializer(project, ProjectSerializer)
