@@ -9,9 +9,8 @@ class BooksController < ApiController
   
   def create
     begin
-      # @book = Book.where(book_params)
-      @book = Book.find_or_create_by book_params #if @book.blank?
-      render json: serializer(@book, BookSerializer) ,status: :ok
+      @book = Book.find_or_create_by book_params
+      render json: serializer(@book, BookSerializer), status: :ok
     rescue => exception
       render json: {errors: @book&.errors&.full_messages&.first}, status: :bad_request      
     end
@@ -54,7 +53,7 @@ class BooksController < ApiController
     end
   end
 
-  private 
+  private
 
   def book_params
     params.require(:book).permit(Book::PERMIT_COLUMNS)

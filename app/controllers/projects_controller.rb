@@ -25,7 +25,7 @@ class ProjectsController < ApiController
 	def show
 		# show는 자신의 프로젝트가 아니더라도 접근 가능해야하므로 load_proejct로 참조해오는 것은 적합하지 않음, 체험기간에도 볼 수 있어야하므로
 		begin
-			proejct = Project.find(params[:id])
+			project = Project.find(params[:id])
 			render json: serializer(project, ProjectSerializer)
 		rescue => exception
 			render json: {error: project.errors&.full_messages&.first}, status: :bad_request
@@ -34,16 +34,16 @@ class ProjectsController < ApiController
 
 	def update
 		begin
-			project.update(project_params)
-			render json: serializer(project, ProjectSerializer)
+			@project.update(project_params)
+			render json: serializer(@project, ProjectSerializer)
 		rescue => exception
-			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request			
+			render json: {error: @project&.errors&.full_messages&.first}, status: :bad_request			
 		end
 	end
 
 	def destroy
 		begin
-			project.destroy
+			@project.destroy
 			render json: { status: :ok }
 		rescue => exception
 			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request			
@@ -53,7 +53,7 @@ class ProjectsController < ApiController
 	def create_schedule
 		begin
 			project.create_schedule
-			render json {
+			render json: {
 				options: project.tutor.options,
 				project: serializer(project, ProjectSerializer)
 			}, status: :ok
@@ -65,7 +65,7 @@ class ProjectsController < ApiController
 	protected
 
 	def load_project
-		project = @current_user.projects.find(params[:id]) if @current_user.projects.present?
+		@project = @current_user.projects.find(params[:id]) if @current_user.projects.present?
 	end
 
 	def project_params

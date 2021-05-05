@@ -12,7 +12,6 @@ class Users::SessionsController < Devise::SessionsController
   rescue_from JWTSessions::Errors::Unauthorized, with: :not_authorized
 
   def create
-    debugger
     super do |user|
       if user.persisted?
         payload = { user_id: user.id}

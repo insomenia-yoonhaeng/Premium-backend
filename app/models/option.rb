@@ -2,7 +2,7 @@ class Option < ApplicationRecord
   belongs_to :tutor
   belongs_to :chapter
 
-  PERMIT_COLUMNS = [ options: [:weight, :chapter_id] ]
+  PERMIT_COLUMNS = [ options: [:weight, :id] ]
 
   enum status: %i(prepare progress complete)
 

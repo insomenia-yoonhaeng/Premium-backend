@@ -36,7 +36,7 @@ class ApiController < ActionController::API
       @current_user = nil
       raise JWTSessions::Errors::Unauthorized
     rescue => exception
-      puts exception
+      puts exception.class
       Rails.logger.info exception
       @current_user = nil
     end

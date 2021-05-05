@@ -36,5 +36,5 @@ Rails.application.routes.draw do
     delete :destroy, on: :collection
     patch :update, on: :collection
   end
-
+  resources :options
 end

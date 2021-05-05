@@ -1,7 +1,7 @@
 class OptionsController < ApiController
 
   before_action :check_auth, only: %i[:create]
-
+  before_action :authorize_check_request
   # {
   #   "option": {
   #     "options": [
@@ -11,12 +11,13 @@ class OptionsController < ApiController
   #   }
   # }
 
-  def create 
+  def create
     options = []
     option_params.dig(:options).each do |option|
-      options << @current_user.options.bulid(weight: option.weight, chapter_id: option.chapter_id)
+      options << @current_user.options.build(weight: option[:weight], chapter_id: option[:id])
     end
     Option.import options
+    render json: { status: :ok }
   end
 
   def option_params
