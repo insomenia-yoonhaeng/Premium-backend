@@ -61,6 +61,8 @@ gem 'capistrano-figaro-yml'
 gem 'capistrano-database-yml'
 gem 'rubocop', require: false
 gem 'faker'
+gem "paranoia"
+gem 'rails_db'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_02_034941) do
+ActiveRecord::Schema.define(version: 2021_05_02_135816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -139,7 +139,9 @@ ActiveRecord::Schema.define(version: 2021_05_02_034941) do
     t.bigint "category_id"
     t.integer "required_time", default: 0
     t.integer "review_weight", default: 0
+    t.datetime "deleted_at"
     t.index ["category_id"], name: "index_projects_on_category_id"
+    t.index ["deleted_at"], name: "index_projects_on_deleted_at"
     t.index ["tutor_id"], name: "index_projects_on_tutor_id"
   end
 

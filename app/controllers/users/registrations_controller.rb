@@ -20,7 +20,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
               secure: Rails.env.production?,
             )
   
-            render json: { csrf: tokens[:csrf], token: tokens[:access] ,is_omniauth: false } and return
+            render json: { csrf: tokens[:csrf], token: tokens[:access], refresh_token: tokens[:refresh] ,is_omniauth: false } and return
           else
             render json: { error: I18n.t("devise.registrations.signed_up_but_inactive") }, status: :locked and return
           end
