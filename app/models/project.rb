@@ -15,9 +15,7 @@ class Project < ApplicationRecord
 	def make_schedule
 		weight_sum = 0
 		# 가중치 합 구하기
-		
-		self.tutor.options.destroy_all if self.tutor.options.present?
-		
+				
 		self.book.chapters.each do | chapter |
 			weight_sum += chapter.options.find_by(tutor: self.tutor).weight
 		end
