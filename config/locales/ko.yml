@@ -39,8 +39,13 @@ ko:
         deposit: 보증금
         image: 사진
         experience_period: 체험기간
+        started_at: 시작일자
+        duration: 기간
         created_at: 생성일자
         updated_at: 수정일자
+        category_id: 카테고리 번호
+        required_time: 최소학습시간
+        review_weight: 복습강도
       auth:
         description: 인증방식
         authable_type: 인증 주체
@@ -59,6 +64,34 @@ ko:
         likable_id: 좋아요 주체 아이디
         created_at: 생성일자
         updated_at: 수정일자
+      category:
+        title: 카테고리 이름
+        created_at: 생성일자
+        updated_at: 수정일자
+      option:
+        tutor_id: 담당튜터
+        chapter_id: 단원
+        weight: 단원중요도
+        status: 진도 상태
+        created_at: 생성일자
+        updated_at: 수정일자
+      book:
+        author: 저자
+        content: 구성
+        title: 제목
+        image: 대표이미지
+        publisher: 출판사
+        isbn: 고유번호
+        created_at: 생성일자
+        updated_at: 수정일자
+      attendance:
+        created_at: 생성일자
+        updated_at: 수정일자
+        status: 프로젝트 참여 상태
+      chapter: 
+        title: 제목
+        created_at: 생성일자
+        updated_at: 수정일자
 
     models:
       user: 사용자
@@ -66,7 +99,17 @@ ko:
       project: 프로젝트
       tutor: 튜터
       tutee: 튜티
+<<<<<<< HEAD
       auth: 인증
+=======
+      category: 카테고리
+      option: 일정 생성 옵션
+      chapter: 목차
+      book: 책
+      auth: 인증
+      attendance: 프로젝트 참여 목록
+
+>>>>>>> 7044e9bd4ba341e8111b857cef255418ee72c099
       
     enum:
       user:
@@ -78,6 +121,10 @@ ko:
           approving: 승인 요청
           approved: 승인됨
           canceled: 승인 취소
+      attendance:
+        status:
+          trial: 체험 중
+          full: 정식 참여 중
 
   devise:
     confirmations:
