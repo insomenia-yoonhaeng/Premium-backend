@@ -13,6 +13,7 @@ class OptionsController < ApiController
 
   def create
     options = []
+    @current_user.options.destroy_all if @current_user.options.present?
     option_params.dig(:options).each do |option|
       options << @current_user.options.build(weight: option[:weight], chapter_id: option[:id])
     end
