@@ -24,7 +24,9 @@ Rails.application.routes.draw do
   get '/get_current_user', to: 'users#get_current_user'
   post '/refresh', to: 'refresh#create'
   resources :users, except: :create
-	resources :projects
+	resources :projects do
+    get :create_schedule
+  end
   resources :auths
   resources :categories
   resources :books do
@@ -34,5 +36,5 @@ Rails.application.routes.draw do
     delete :destroy, on: :collection
     patch :update, on: :collection
   end
-
+  resources :options
 end

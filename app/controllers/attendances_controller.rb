@@ -17,7 +17,7 @@ class AttendancesController < ApiController
   def create
     if @current_user.is_a? Tutee
       begin
-        @attendance = @current_user.attendances.first_or_create(project_id: @project.id)
+        @attendance = @current_user.attendances.where(project_id: @project.id).first_or_create
         render json: serializer(@attendance, AttendanceSerializer), status: :ok
       rescue => exception
         render json: { errors: @attendance&.errors&.full_messages&.first }, status: :bad_request     

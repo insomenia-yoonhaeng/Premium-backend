@@ -1,6 +1,7 @@
 class BookSerializer < Panko::Serializer
-  attributes :id, :title, :author, :content, :isbn, :publisher, :image
+  attributes :title, :author, :content, :isbn, :publisher, :image, :id, :chapters
 
-  # 이런식으로 사용해도 됨. 참고하셈
-  has_many :chapters, each_serializer: ChapterSerializer
+  def chapters
+    context[:chapters] if context.present?
+  end
 end

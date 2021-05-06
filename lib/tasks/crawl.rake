@@ -13,7 +13,7 @@ namespace :crawl do
     
     # 셀레니움 + 크롬 + 헤드리스 옵션으로 브라우저 실행
     @browser = Selenium::WebDriver.for :chrome, options: options
-    
+
     @browser.navigate().to args[:url]
     
     @content = @browser.find_elements(css: "#tabContent > .tab_body > .info_section > .coll_tit")
@@ -29,7 +29,7 @@ namespace :crawl do
     chapters = []
 
     @list_content.split("\n") do |chapter|
-      chapters << Chapter.new(title: chapter)
+      chapters << Chapter.new(title: chapter) if chapter.present? # 띄어쓰기때문에 공백이 생김, 때문에 공백일 경우는 만들지 않도록 함
     end
 
     # bulk insert

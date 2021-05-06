@@ -39,6 +39,7 @@ gem 'devise-i18n'
 
 gem 'jwt_sessions'
 # gem 'pry', '~> 0.13.1'
+gem 'pry'
 gem 'pry-rails'
 gem 'redis'
 gem 'omniauth'

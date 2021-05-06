@@ -36,7 +36,7 @@ class ApiController < ActionController::API
       @current_user = nil
       raise JWTSessions::Errors::Unauthorized
     rescue => exception
-      puts exception
+      puts exception.class
       Rails.logger.info exception
       @current_user = nil
     end
@@ -90,13 +90,14 @@ class ApiController < ActionController::API
     http_token && auth_token && auth_token[:user_id].to_i
   end
 
-	def serializer object, serializer, attributes = []
-		serializer.new(only: attributes).serialize(object)
+	def serializer object, serializer, context: nil, attributes: []
+		serializer.new(only: attributes, context: context).serialize(object)
 	end
 
-	def each_serializer objects, serializer
+	def each_serializer objects, serializer, context: nil
 		Panko::ArraySerializer.new(
 			objects,
+      context: context,
 			each_serializer: serializer
 		).to_a
 	end
