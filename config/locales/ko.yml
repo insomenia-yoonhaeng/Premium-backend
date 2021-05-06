@@ -79,7 +79,16 @@ ko:
         image: 대표이미지
         publisher: 출판사
         isbn: 고유번호
-        
+        created_at: 생성일자
+        updated_at: 수정일자
+      attendance:
+        created_at: 생성일자
+        updated_at: 수정일자
+        status: 프로젝트 참여 상태
+      chapter: 
+        title: 제목
+        created_at: 생성일자
+        updated_at: 수정일자
 
     models:
       user: 사용자
@@ -88,9 +97,11 @@ ko:
       tutor: 튜터
       tutee: 튜티
       category: 카테고리
-      option: 일정생성옵션
+      option: 일정 생성 옵션
       chapter: 목차
       book: 책
+      auth: 인증
+      attendance: 프로젝트 참여 목록
 
       
     enum:
@@ -103,6 +114,10 @@ ko:
           approving: 승인 요청
           approved: 승인됨
           canceled: 승인 취소
+      attendance:
+        status:
+          trial: 체험 중
+          full: 정식 참여 중
 
   devise:
     confirmations:
