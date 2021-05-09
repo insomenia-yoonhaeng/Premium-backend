@@ -10,6 +10,10 @@ class Project < ApplicationRecord
 	belongs_to :category, optional: true
 	belongs_to :book, optional: true
 
+	enum rest: %i(allow disallow)
+
+  ransacker :rest, formatter: proc {|v| rests[v]}
+
 	# chapter 1 : N option
 	# 같은 챕터를 사용하는 서로 다른 튜터가 매긴 옵션
 	def make_schedule
