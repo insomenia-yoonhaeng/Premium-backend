@@ -78,11 +78,10 @@ class Project < ApplicationRecord
 		@options.each_with_index do | option, index |
 			@start_at = index != 0 ? @end_at + 1.days : self.started_at # 첫 인덱스면, 첫 챕터니까 이 챕터의 시작일은 프로젝트의 시작일과 같다. 정렬 순서 뒤바꾸지 않는 이상 괜찮다 created_at
 			real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
-			debugger
 			@end_at =  @start_at + (@recongnize_days.pluck(:id).include?(option.id) ? real_ratio_alloc_day.to_i.days : (real_ratio_alloc_day.to_i - 1).days)
 			option.update(start_at: @start_at, end_at: @end_at)
 		end
-	
+		
 	end
 
 	# 휴식있는 스케쥴 생성
