@@ -50,6 +50,10 @@ class ProjectsController < ApiController
 		end
 	end
 
+	def preview
+		
+	end
+
 	def create_schedule
 		begin
 			project = @current_user.projects.find(params[:project_id]) if @current_user.projects.present?
