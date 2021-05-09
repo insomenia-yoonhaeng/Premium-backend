@@ -29,10 +29,25 @@ class AuthsController < ApiController
 
   def update
     begin
+      target = (@current_user.is_a? Tutor) ? @current_user : @current_user&.attendances.where(project_id: @project.id)&.first
+      @auth = target.auths.find_by(id: params[:id])
       @auth.update auth_params unless check_auth
       render json: serializer(@auth, AuthSerailizer), status: :ok
     rescue => exception
       render json: {errors: @auth&.errors&.full_messages&.first}, status: :bad_request
+    end
+  end
+
+  def show_all
+    begin
+      if @current_user.is_a? Tutor
+        project = @current_user.projects.find(params[:project_id]) 
+        render json: each_serializer(project.auths, AuthSerializer), status: :ok
+      else
+        render json: { errors: "튜터만 접근 가능합니다"}, status: :bad_request
+      end
+    rescue => exception
+      render json: { errors: "없는 프로젝트입니다"}, status: :bad_request
     end
   end
 
