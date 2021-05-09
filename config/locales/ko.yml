@@ -99,9 +99,6 @@ ko:
       project: 프로젝트
       tutor: 튜터
       tutee: 튜티
-<<<<<<< HEAD
-      auth: 인증
-=======
       category: 카테고리
       option: 일정 생성 옵션
       chapter: 목차
@@ -109,7 +106,6 @@ ko:
       auth: 인증
       attendance: 프로젝트 참여 목록
 
->>>>>>> 7044e9bd4ba341e8111b857cef255418ee72c099
       
     enum:
       user:
