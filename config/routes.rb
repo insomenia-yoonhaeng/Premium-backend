@@ -27,7 +27,9 @@ Rails.application.routes.draw do
 	resources :projects do
     get :create_schedule
   end
-  resources :auths
+  resources :auths do
+    get :show_all, on: :collection
+  end
   resources :categories
   resources :books do
     get :get_list, on: :collection

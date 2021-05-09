@@ -14,5 +14,5 @@ JWTSessions.refresh_cookie = "jwt_refresh"
 JWTSessions.csrf_header    = "X-CSRF-Token"
 JWTSessions.access_exp_time = 3600 # 1 hour in seconds
 JWTSessions.refresh_exp_time = 604800 # 1 week in seconds
-#JWTSessions.access_exp_time = 60 # test
-#JWTSessions.refresh_exp_time = 180 # test
+# JWTSessions.access_exp_time = 60 # test
+# JWTSessions.refresh_exp_time = 180 # test

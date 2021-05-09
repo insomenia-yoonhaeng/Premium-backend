@@ -141,9 +141,9 @@ ActiveRecord::Schema.define(version: 2021_05_03_062318) do
     t.bigint "category_id"
     t.integer "required_time", default: 0
     t.integer "review_weight", default: 0
-    t.datetime "deleted_at"
     t.string "mission"
     t.bigint "book_id"
+    t.datetime "deleted_at"
     t.index ["book_id"], name: "index_projects_on_book_id"
     t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["deleted_at"], name: "index_projects_on_deleted_at"

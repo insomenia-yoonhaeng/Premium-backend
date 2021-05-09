@@ -7,6 +7,7 @@ class Project < ApplicationRecord
 	
   belongs_to :tutor, optional: true
 	has_many :attendances, dependent: :nullify
+	has_many :auths, through: :attendances, as: :authable
 	belongs_to :category, optional: true
 	belongs_to :book, optional: true
 

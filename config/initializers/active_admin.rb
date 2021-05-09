@@ -133,10 +133,12 @@ ActiveAdmin.setup do |config|
     admin.comments = false 
     admin.build_menu do |menu|
       menu.add label: '사용자 관리', priority: 1
+      menu.add label: '프로젝트 관리', priority: 2
+      menu.add label: '인증 관리', priority: 3
     end
   end
 
-  config.footer = 'Premium'
+  config.footer = '2021-1학기 캡스톤 디자인 Premium팀입니다'
 
   # You can change the name under which comments are registered:
   # config.comments_registration_name = 'AdminComment'
