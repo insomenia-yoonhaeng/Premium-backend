@@ -3,7 +3,7 @@ class Project < ApplicationRecord
 	include Imageable
 	acts_as_paranoid
 	
-	PERMIT_COLUMNS = [:experience_period, :description, :deposit, :image, :title, :category_id, :book_id, :duration, :started_at]
+	PERMIT_COLUMNS = [:description, :deposit, :image, :title, :started_at, :duration, :experience_period, :category_id, :required_time, :review_weight, :mission, :book_id, :rest]
 	
   belongs_to :tutor, optional: true
 	has_many :attendances, dependent: :nullify
