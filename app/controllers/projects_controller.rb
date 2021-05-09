@@ -51,7 +51,7 @@ class ProjectsController < ApiController
 	end
 
 	def preview
-		
+		# option 저장하지 말고 new instance 반환하기
 	end
 
 	def create_schedule
