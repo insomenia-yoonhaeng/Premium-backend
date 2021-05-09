@@ -20,7 +20,6 @@ class Project < ApplicationRecord
 			weight_sum += chapter.options.find_by(tutor: self.tutor).weight
 		end
 
-		
 		# 챕터 시작, 끝 날짜 계산하기
 		start_date = DateTime.now, end_date = DateTime.now
 		# DateTime.on_weekend? => 주말인지 아닌지 true : false

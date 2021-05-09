@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :users, except: :create
 	resources :projects do
     get :create_schedule
+    get :preview
   end
   resources :auths
   resources :categories

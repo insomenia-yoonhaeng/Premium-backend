@@ -30,3 +30,4 @@
 dump.rdb
 # Image
 /public/uploads/*
+/config/application.yml
