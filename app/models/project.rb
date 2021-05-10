@@ -93,6 +93,26 @@ class Project < ApplicationRecord
     
     set_data_before_make_schedule
 
+    holiday_upper_bound = (self.duration * 0.2).to_i
+
+    @options.each do | option |
+      real_ratio_alloc_day = (self.duration + (holiday_upper_bound < @chapters.count ? holiday_upper_bound : @chapters.count)) * ( option.weight.to_f / @weight_sum )
+      (@real_ratio_alloc_days ||= []) << { id: option.id, day: real_ratio_alloc_day }
+    end
+
+    # 실제 비율로 나눠진 기간과 버림으로 인해 잘라진 기간의 차이 
+    diff = self.duration - (@real_ratio_alloc_days.pluck(:day).map(&:to_i).map{|day| day - 1}.inject(0, &:+))
+
+    # 상위 n개
+    @recongnize_days = @real_ratio_alloc_days.sort_by{ |r| r[:day] }.last(diff)
+
+    @options.each_with_index do | option, index |
+      @start_at = index != 0 ? @end_at + 1.days : self.started_at # 첫 인덱스면, 첫 챕터니까 이 챕터의 시작일은 프로젝트의 시작일과 같다. 정렬 순서 뒤바꾸지 않는 이상 괜찮다 created_at
+      real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
+      @end_at =  @start_at + (@recongnize_days.pluck(:id).include?(option.id) ? real_ratio_alloc_day.to_i.days : (real_ratio_alloc_day.to_i - 1).days)
+      option.update(start_at: @start_at, end_at: @end_at)
+    end
+
 
   end
 end
