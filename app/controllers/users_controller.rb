@@ -41,6 +41,19 @@ class UsersController < ApiController
     end
   end
 
+  def get_project_list
+    begin
+      if @current_user.is_a? Tutor
+        projects = @current_user.projects
+        render json: each_serializer(projects, ProjectSerializer), status: :ok
+      else
+        render json: { errors: "튜터만 접근 가능합니다"}, status: :bad_request
+      end
+    rescue => exception
+      render json: { errors: "잘못된 접근입니다"}, status: :bad_request
+    end
+  end
+
   private
     
   def user_params
