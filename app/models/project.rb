@@ -88,7 +88,7 @@ class Project < ApplicationRecord
   # max는 기간의 20%
   # 챕터 당 휴일 1일이 default이다. max를 넘을 경우는 max가 휴일의 수와 동일
   def make_schedule_with_rest
-    debugger
+    
     set_data_before_make_schedule
    
     @holiday_upper_bound ||= (self.duration * 0.2).to_i
@@ -108,7 +108,6 @@ class Project < ApplicationRecord
     grant_holiday_options = @options.pluck(:id).shuffle.last((@holiday_upper_bound < @options.count ? @holiday_upper_bound : @options.count))
   
     @options.each_with_index do | option, index |
-      debugger
       @start_at = index != 0 ? @end_at + 1.days : self.started_at # 첫 인덱스면, 첫 챕터니까 이 챕터의 시작일은 프로젝트의 시작일과 같다. 정렬 순서 뒤바꾸지 않는 이상 괜찮다 created_at
       real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
       @end_at =  @start_at + (@recongnize_days.pluck(:id).include?(option.id) ? real_ratio_alloc_day.to_i.days : (real_ratio_alloc_day.to_i - 1).days)
