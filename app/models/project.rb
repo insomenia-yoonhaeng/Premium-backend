@@ -69,7 +69,7 @@ class Project < ApplicationRecord
       (@real_ratio_alloc_days ||= []) << { id: option.id, day: real_ratio_alloc_day }
     end
 
-    make_schdule
+    make_schedule
 
   end
 
@@ -89,11 +89,11 @@ class Project < ApplicationRecord
       (@real_ratio_alloc_days ||= []) << { id: option.id, day: real_ratio_alloc_day }
     end
 
-    make_schdule
+    make_schedule
   
   end
 
-  def make_schdule
+  def make_schedule
     # 실제 비율로 나눠진 기간과 버림으로 인해 잘라진 기간의 차이 => n개
     diff = self.duration - (@real_ratio_alloc_days.pluck(:day).map(&:to_i).map{|day| day - 1}.inject(0, &:+))
 
