@@ -52,6 +52,17 @@ class Project < ApplicationRecord
       puts "데이터 설정 완료"
     end
 
+    @options.each do | option |
+      real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
+      (@real_ratio_alloc_days ||= []) << { id: option.id, day: real_ratio_alloc_day }
+    end
+    
+    # 실제 비율로 나눠진 기간과 버림으로 인해 잘라진 기간의 차이 => n개
+    diff ||= self.duration - (@real_ratio_alloc_days.pluck(:day).map(&:to_i).inject(0, &:+))
+
+    # 상위 n개
+    @recongnize_days = @real_ratio_alloc_days.sort_by{ |r| r[:day] }.last(diff)
+
   end
 
   # DateTime.on_weekend? => 주말인지 아닌지 true : false
@@ -63,16 +74,7 @@ class Project < ApplicationRecord
   def make_schedule_without_rest
 
     set_data_before_make_schedule
-    @options.each do | option |
-      real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
-      (@real_ratio_alloc_days ||= []) << { id: option.id, day: real_ratio_alloc_day }
-    end
-
-    diff ||= self.duration - (@real_ratio_alloc_days.pluck(:day).map(&:to_i).inject(0, &:+))
-
-    # 상위 n개
-    @recongnize_days = @real_ratio_alloc_days.sort_by{ |r| r[:day] }.last(diff)
-
+    
     @options.each_with_index do | option, index |
       @start_at = index != 0 ? @end_at + 1.days : self.started_at # 첫 인덱스면, 첫 챕터니까 이 챕터의 시작일은 프로젝트의 시작일과 같다. 정렬 순서 뒤바꾸지 않는 이상 괜찮다 created_at
       real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
@@ -93,17 +95,6 @@ class Project < ApplicationRecord
    
     @holiday_upper_bound ||= (self.duration * 0.2).to_i
     
-    @options.each do | option |
-      real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
-      (@real_ratio_alloc_days ||= []) << { id: option.id, day: real_ratio_alloc_day }
-    end
-    
-    # 실제 비율로 나눠진 기간과 버림으로 인해 잘라진 기간의 차이 => n개
-    diff ||= self.duration - (@real_ratio_alloc_days.pluck(:day).map(&:to_i).inject(0, &:+))
-
-    # 상위 n개
-    @recongnize_days = @real_ratio_alloc_days.sort_by{ |r| r[:day] }.last(diff)
-
     # 휴일 랜덤으로 뽑는 로직
     grant_holiday_options = @options.pluck(:id).shuffle.last((@holiday_upper_bound < @options.count ? @holiday_upper_bound : @options.count))
   
