@@ -52,6 +52,7 @@ class Project < ApplicationRecord
       puts "데이터 설정 완료"
     end
 
+    # 실제 비율로 계산된 시간들 계산
     @options.each do | option |
       real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
       (@real_ratio_alloc_days ||= []) << { id: option.id, day: real_ratio_alloc_day }
@@ -60,7 +61,7 @@ class Project < ApplicationRecord
     # 실제 비율로 나눠진 기간과 버림으로 인해 잘라진 기간의 차이 => n개
     diff ||= self.duration - (@real_ratio_alloc_days.pluck(:day).map(&:to_i).inject(0, &:+))
 
-    # 상위 n개
+    # 상위 n개 추출
     @recongnize_days = @real_ratio_alloc_days.sort_by{ |r| r[:day] }.last(diff)
 
   end
