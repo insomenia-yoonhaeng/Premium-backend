@@ -36,7 +36,8 @@ class Project < ApplicationRecord
     end
     
     begin
-      @chapters = @book.chapters
+      # option이 데이터 필터링에 사용될 것이기에 join이 더 좋다, inner, outer join에 대해 복습할 것
+      @chapters = @book.chapters.joins(:options)
     rescue => exception
       msg = "책에 목차가 존재하지 않습니다."
       puts msg
