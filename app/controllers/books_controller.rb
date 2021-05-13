@@ -9,7 +9,8 @@ class BooksController < ApiController
   
   def create
     begin
-      @book = Book.find_or_create_by book_params
+      @book = Book.find_or_create_by(title: book_params[:title])
+      @book.update(book_params)
       render json: serializer(@book, BookSerializer), status: :ok
     rescue => exception
       render json: {errors: @book&.errors&.full_messages&.first}, status: :bad_request      

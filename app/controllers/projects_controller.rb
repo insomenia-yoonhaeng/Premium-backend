@@ -50,14 +50,11 @@ class ProjectsController < ApiController
 		end
 	end
 
-	def preview
-		# option 저장하지 말고 new instance 반환하기
-	end
-
 	def create_schedule
 		begin
-			project = @current_user.projects.find(params[:project_id]) if @current_user.projects.present?
-			project.make_schedule_with_rest
+      project = @current_user.projects.find(params[:project_id]) if @current_user.projects.present?
+      project.update(rest: params[:rest].to_i)
+			project.allow_rest? ? project.make_schedule_with_rest : project.make_schedule_without_rest
 			render json: {
 				options: project.tutor.options,
 				project: serializer(project, ProjectSerializer)

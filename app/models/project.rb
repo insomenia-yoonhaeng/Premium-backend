@@ -11,7 +11,7 @@ class Project < ApplicationRecord
   belongs_to :category, optional: true
   belongs_to :book, optional: true
 
-  enum rest: %i(allow disallow)
+  enum rest: %i(disallow_rest allow_rest)
 
   ransacker :rest, formatter: proc {|v| rests[v]}
 
