@@ -53,8 +53,9 @@ class ProjectsController < ApiController
 
 	def create_schedule
 		begin
-			project = @current_user.projects.find(params[:project_id]) if @current_user.projects.present?
-			project.make_schedule
+      project = @current_user.projects.find(params[:project_id]) if @current_user.projects.present?
+      project.update(rest: params[:rest].to_i)
+			project.allow_rest? ? project.make_schedule_with_rest : project.make_schedule_without_rest
 			render json: {
 				options: project.tutor.options,
 				project: serializer(project, ProjectSerializer)
