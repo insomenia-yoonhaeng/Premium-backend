@@ -2,21 +2,20 @@ class Project < ApplicationRecord
   
   include ImageUrl
   include Imageable
+
   acts_as_paranoid
   
-  PERMIT_COLUMNS = [:description, :deposit, :image, :title, :started_at, :duration, :experience_period, :category_id, :required_time, :review_weight, :mission, :book_id, :rest]
+  PERMIT_COLUMNS = %i(description, deposit, image, title, started_at, duration, experience_period, category_id, required_time, review_weight, mission, book_id, rest)
   
-  belongs_to :tutor, optional: true
   has_many :attendances, dependent: :nullify
+	has_many :auths, through: :attendances, as: :authable
+  belongs_to :tutor, optional: true
   belongs_to :category, optional: true
   belongs_to :book, optional: true
 
   enum rest: %i(disallow_rest allow_rest)
 
   ransacker :rest, formatter: proc {|v| rests[v]}
-
-  # chapter 1 : N option
-  # 같은 챕터를 사용하는 서로 다른 튜터가 매긴 옵션
 
   def set_data_before_make_schedule
     @start_at, @end_at = DateTime.now, DateTime.now
@@ -36,7 +35,6 @@ class Project < ApplicationRecord
     end
     
     begin
-      # option이 데이터 필터링에 사용될 것이기에 join이 더 좋다, inner, outer join에 대해 복습할 것
       @chapters = @book.chapters.joins(:options)
     rescue => exception
       msg = "책에 목차가 존재하지 않습니다."
@@ -60,7 +58,7 @@ class Project < ApplicationRecord
     end
     
     # 실제 비율로 나눠진 기간과 버림으로 인해 잘라진 기간의 차이 => n개
-    diff ||= self.duration - (@real_ratio_alloc_days.pluck(:day).map(&:to_i).inject(0, &:+))
+    diff ||= self.duration - (@real_ratio_alloc_days.pluck(:day).map(&:to_i).compact.sum)
 
     # 상위 n개 추출
     @recongnize_days = @real_ratio_alloc_days.sort_by{ |r| r[:day] }.last(diff)

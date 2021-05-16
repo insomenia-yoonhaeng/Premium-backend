@@ -25,15 +25,6 @@ class BooksController < ApiController
     end
   end
   
-  # def update
-  #   begin
-  #     @book.update(book_params)
-  #     render json: { status: :ok }
-  #   rescue => exception
-  #     render json: {errors: @book&.errors&.full_messages.first}, status: :not_found
-  #   end
-  # end
-
   def destroy
     begin
       @book.destroy
@@ -46,12 +37,8 @@ class BooksController < ApiController
   def get_list # 목차 가져오기
     title = params.dig(:book, :title) 
     book = Book.find_by(title: title)
-    if book.chapters.present?
-      render json: serializer(book, BookSerializer, context: { chapters: Book.find_by(title: title).chapters }), status: :ok
-    else
-      book.crawl_book_index
-      render json: serializer(book, BookSerializer, context: { chapters: Book.find_by(title: title).chapters }), status: :ok
-    end
+    book.crawl_book_index if book.chapters.blank?
+    render json: serializer(book, BookSerializer, { chapter: Book.find_by(title: title).chapters.first }), status: :ok
   end
 
   private
