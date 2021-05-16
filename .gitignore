@@ -26,7 +26,6 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
-/db/schema.rb
 dump.rdb
 # Image
 /public/uploads/*

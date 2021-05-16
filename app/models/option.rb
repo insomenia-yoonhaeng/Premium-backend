@@ -8,4 +8,6 @@ class Option < ApplicationRecord
 
   ransacker :status, formatter: proc {|v| statuses[v]}
 
+  enum holiday: %i(normal holiday)
+
 end
