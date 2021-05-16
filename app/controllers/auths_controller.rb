@@ -34,11 +34,12 @@ class AuthsController < ApiController
     end
   end
 
+
   def show_all
     begin
       if @current_user.is_a? Tutor
         project = @current_user.projects.find(params[:project_id]) 
-        render json: each_serializer(project.auths, AuthSerializer), status: :ok
+        render json: { each_serializer(project.auths, AuthSerializer, tutee: project.auths)}, status: :ok
       else
         render json: { errors: "튜터만 접근 가능합니다"}, status: :bad_request
       end

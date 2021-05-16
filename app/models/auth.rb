@@ -7,6 +7,7 @@ class Auth < ApplicationRecord
 
   belongs_to :authable, polymorphic: true, optional: true
 
+	delegate :tutee, to: :authable, allow_nil: true
 	before_create :check_user_auth
 
 	private 
