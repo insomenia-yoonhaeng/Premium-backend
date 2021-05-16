@@ -6,6 +6,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :omniauthable, :trackable
 	include ImageUrl
 	include Imageable
+  include Likable
+  has_many :likes, dependent: :destroy
   
 	PERMIT_COLUMNS = [:image, :phone, :name, :type, :info, :status]
 	
