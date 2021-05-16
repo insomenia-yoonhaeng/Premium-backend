@@ -5,7 +5,7 @@
 set :user, 'ubuntu'
 
 ## REMOTE 서버 설정
-set :aws_ec2_ip, "52.79.97.255" # public ip
+set :aws_ec2_ip, "54.180.124.119" # public ip
 
 ## Remote서버에 대해 배포환경 설정 (환경변수 설정)
 set :rails_env, "production"

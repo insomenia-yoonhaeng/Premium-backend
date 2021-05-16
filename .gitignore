@@ -31,3 +31,4 @@ dump.rdb
 # Image
 /public/uploads/*
 /config/application.yml
+/config/deploy/production.rb
