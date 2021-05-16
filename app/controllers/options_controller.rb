@@ -1,15 +1,6 @@
 class OptionsController < ApiController
-
-  before_action :check_auth, only: %i[:create]
   before_action :authorize_check_request
-  # {
-  #   "option": {
-  #     "options": [
-  #        {"weight": 1, chapter_id: 4}, 
-  #        {"weight": 1, chapter_id: 5}
-  #     ]
-  #   }
-  # }
+  before_action :check_auth, only: %i(create)
 
   def create
     # 챕터부터 옵션까지 역탐색
