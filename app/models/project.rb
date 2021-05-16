@@ -5,7 +5,7 @@ class Project < ApplicationRecord
 
   acts_as_paranoid
   
-  PERMIT_COLUMNS = %i(description, deposit, image, title, started_at, duration, experience_period, category_id, required_time, review_weight, mission, book_id, rest)
+  PERMIT_COLUMNS = %i(description deposit image title started_at duration experience_period category_id required_time review_weight mission book_id rest)
   
   has_many :attendances, dependent: :nullify
 	has_many :auths, through: :attendances, as: :authable
