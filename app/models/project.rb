@@ -129,10 +129,8 @@ class Project < ApplicationRecord
           when 0..49 then 0
           when 50..79 then self.deposit * 0.5
           when 80..100 then self.deposit
-          else
-            Rails.logger.info "퍼센트 계산이 잘못되었습니다"
-            return
-        end 
+          else -1
+        end
 
         if @amount > 0
           code, message, response = Iamport.iamport_cancel(attendance.imp_uid, @amount)
@@ -143,7 +141,7 @@ class Project < ApplicationRecord
               Rails.logger.info "비유한 토큰입니다."
           end
         else
-          Rails.logger.info "인증률이 저조하여 환급할 금액이 없는 튜티입니다."
+          Rails.logger.info "환급이 필요없거나 잘못 계산되었습니다."
         end
 
       end
