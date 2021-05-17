@@ -118,22 +118,40 @@ class Project < ApplicationRecord
   end
 
   def refund_all_tutties
-    if self.attendance.present?
-      self.attendances.each do | attendance|
-        code, message, response = Iamport.iamport_cancel(attendance.imp_uid, attendance.amount)
-        if code.zero?
-          # 환불 정상적으로 이루어진 경우
-          Rails.logger.info message
-        elsif code == 1
-          # 이미 결제가 취소된 상태
-          Rails.logger.info message
+    if self.attendances.present?
+      
+      self.attendances.each do | attendance |
+        # auth 물어보고 로직 재설정하기, authable이 뭐지? 뭐뭐가 될 수 있는 거지?
+        authentication_rate = attendance.tutee.auths.count.to_f / self.duration
+        percentage = authentication_rate * 100
+
+        @amount = case percentage
+          when 0..49 then 0
+          when 50..79 then self.deposit * 0.5
+          when 80..100 then self.deposit
+          else
+            Rails.logger.info "퍼센트 계산이 잘못되었습니다"
+            return
+        end 
+
+        if @amount > 0
+          code, message, response = Iamport.iamport_cancel(attendance.imp_uid, @amount)
+          case code 
+            when 0..1
+              Rails.logger.info message
+            else
+              Rails.logger.info "비유한 토큰입니다."
+          end
         else
-          Rails.logger.info "비유한 토큰입니다."
+          Rails.logger.info "인증률이 저조하여 환급할 금액이 없는 튜티입니다."
         end
+
       end
+    
     else
       Rails.logger.info "참여자가 없습니다."
     end
+
   end
 
 end
