@@ -38,7 +38,7 @@ class BooksController < ApiController
     title = params.dig(:book, :title) 
     book = Book.find_by(title: title)
     book.crawl_book_index if book.chapters.blank?
-    render json: serializer(book, BookSerializer, { chapter: Book.find_by(title: title).chapters.first }), status: :ok
+    render json: serializer(book, BookSerializer, { chapter: Book.find_by(title: title).chapters} ), status: :ok
   end
 
   private

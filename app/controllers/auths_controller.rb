@@ -34,6 +34,7 @@ class AuthsController < ApiController
     end
   end
 
+
   def show_all
     begin
       if @current_user.is_a? Tutor

@@ -12,13 +12,13 @@ ActiveAdmin.register Attendance do
     selectable_column
     id_column
     column "프로젝트 이름" do |attendance|
-      link_to "#{attendance.project.title}", admin_project_path(attendance.project.id)
+      link_to "#{attendance&.project&.title}", admin_project_path(attendance&.project&.id) rescue ""
     end
     column "참여 튜티" do |attendance|
-      link_to "#{attendance.tutee&.name}", admin_user_path(attendance.tutee.id)
+      link_to "#{attendance&.tutee&.name}", admin_user_path(attendance&.tutee.id) rescue ""
     end
     column "프로젝트 참여 상태" do |attendance|
-      I18n.t("activerecord.enum.attendance.status.#{attendance.status}")
+      I18n.t("activerecord.enum.attendance.status.#{attendance.status}") rescue ""
     end
     column "인증 목록 보기" do |attendance|
       link_to "인증 목록 보기", admin_auths_path({q: {authable_type_eq: "Attendance", authable_id_eq: attendance.id}})
@@ -31,13 +31,13 @@ ActiveAdmin.register Attendance do
   show do
     attributes_table do
       row "프로젝트 이름" do |attendance|
-        link_to "#{attendance.project.title}", admin_project_path(attendance.project.id)
+        link_to "#{attendance&.project&.title}", admin_project_path(attendance&.project&.id) rescue ""
       end
       row "참여 튜티" do |attendance|
-        link_to "#{attendance.tutee&.name}", admin_user_path(attendance.tutee.id)
+        link_to "#{attendance.tutee&.name}", admin_user_path(attendance&.tutee&.id) rescue ""
       end
       row "프로젝트 참여 상태" do |attendance|
-        I18n.t("activerecord.enum.attendance.status.#{attendance.status}")
+        I18n.t("activerecord.enum.attendance.status.#{attendance.status}") rescue ""
       end
       row "인증 목록 보기" do |attendance|
         link_to "인증 목록 보기", admin_auths_path({q: {authable_type_eq: "Attendance", authable_id_eq: attendance.id}})
