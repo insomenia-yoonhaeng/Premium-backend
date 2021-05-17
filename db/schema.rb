@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_10_110945) do
+ActiveRecord::Schema.define(version: 2021_05_17_100237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,10 @@ ActiveRecord::Schema.define(version: 2021_05_10_110945) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "status", default: 0
+    t.string "imp_uid"
+    t.string "merchant_uid"
+    t.integer "amount", default: 0
+    t.integer "pay_status", default: 0
     t.index ["project_id"], name: "index_attendances_on_project_id"
     t.index ["tutee_id"], name: "index_attendances_on_tutee_id"
   end
@@ -128,6 +132,13 @@ ActiveRecord::Schema.define(version: 2021_05_10_110945) do
     t.index ["tutor_id"], name: "index_options_on_tutor_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_payments_on_user_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.bigint "tutor_id", null: false
     t.string "description"
@@ -184,6 +195,7 @@ ActiveRecord::Schema.define(version: 2021_05_10_110945) do
   add_foreign_key "likes", "users"
   add_foreign_key "options", "chapters"
   add_foreign_key "options", "users", column: "tutor_id"
+  add_foreign_key "payments", "users"
   add_foreign_key "projects", "books"
   add_foreign_key "projects", "categories"
   add_foreign_key "projects", "users", column: "tutor_id"

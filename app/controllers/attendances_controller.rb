@@ -32,11 +32,10 @@ class AttendancesController < ApiController
 
   def update
     # 체험판에서 정식판으로 등록 
-    ## TODO 결제 성공 시
     if @current_user.is_a? Tutee
       begin
         @attendance = @current_user.attendances.trial.where(project_id: @project.id).first
-        @attendance.full!
+        @attendance.check_payment if @attendance.update(imp_uid: params[:imp_uid], merchant_uid: params[:merchant_uid], amount: params[:deposit])
         render json: serializer(@attendance, AttendanceSerializer), status: :ok
       rescue => exception
         if exception.class.eql?("NoMethodError")

@@ -1,17 +1,34 @@
 module Iamport
   extend ActiveSupport::Concern
-  BASE_URL = '<https://api.iamport.kr>'
   
-  @access_token = nil
+  IAMPORT_SERVER_URL = 'https://api.iamport.kr'.freeze
 
-  included do
+  @access_token = nil
+  
+  # initializer에 있는 Iamport config 받아오기
+  class Config
+    attr_accessor :api_key
+    attr_accessor :api_secret
+  end
+
+  class << self
+    
+    def config
+      @config ||= Config.new
+    end
+    
+    def configure
+      yield(config) if block_given?
+    end
+
+    # api사용을 위한 토큰 취득
     def iamport_access_token
       if @access_token.nil?
 				# imp_key 값, imp_secret 값을 넣어야합니다.
         imp_key = ENV["IAMPORT_API_KEY"]
         imp_secret = ENV["IAMPORT_API_SECRET_KEY"]
         @access_token = HTTParty.post(
-          "#{BASE_URL}/users/getToken",
+          "#{IAMPORT_SERVER_URL}/users/getToken",
           body: { imp_key: imp_key, imp_secret: imp_secret }
         ).parsed_response['response']['access_token']
       else
@@ -19,17 +36,18 @@ module Iamport
       end
     end
 
-    # 해당 response 받기
+    # 고유번호로 결제 내역 확인
     def iamport_payment(imp_uid)
       HTTParty.get(
-        "#{BASE_URL}/payments/#{imp_uid}",
+        "#{IAMPORT_SERVER_URL}/payments/#{imp_uid}",
         headers: { Authorization: iamport_access_token }
       ).parsed_response.values_at('code', 'response')
     end
 
+    # 결제 취소
     def iamport_cancel(imp_uid, amount)
       HTTParty.post(
-        "#{BASE_URL}/payments/cancel",
+        "#{IAMPORT_SERVER_URL}/payments/cancel",
         body: {
           imp_uid: imp_uid,
           amount: amount
@@ -38,9 +56,10 @@ module Iamport
       ).parsed_response['code'].zero?
     end
 
+    # 재결제 프로세스
     def iamport_again(customer_uid, card_id, amount)
       HTTParty.post(
-        "#{BASE_URL}/subscribe/payments/again",
+        "#{IAMPORT_SERVER_URL}/subscribe/payments/again",
         body: {
           name: '빌링키 결제 테스트',
           customer_uid: customer_uid,
@@ -51,4 +70,5 @@ module Iamport
       ).parsed_response.values_at('code', 'response')
     end
   end
+
 end
