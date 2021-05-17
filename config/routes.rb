@@ -39,4 +39,7 @@ Rails.application.routes.draw do
     patch :update, on: :collection
   end
   resources :options
+  resources :likes, only: %i(create destroy) do
+    get :is_like, on: :collection
+  end
 end
