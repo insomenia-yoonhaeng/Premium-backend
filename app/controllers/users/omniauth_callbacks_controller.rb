@@ -3,6 +3,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     auth_login("kakao")
   end
 
+  def apple
+    auth_login("apple")
+  end
+
   def after_sign_in_path_for(resource)
     auth = request.env['omniauth.auth']
     @identity = Identity.find_for_oauth(auth)

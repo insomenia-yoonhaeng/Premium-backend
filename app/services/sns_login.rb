@@ -28,6 +28,7 @@ class SnsLogin
     auth_params = {
       name: @auth.info.name,
       password: Devise.friendly_token[0,20],
+      name: "#{@auth.info.last_name}#{@auth.info.first_name}",
       account_type: @auth.provider
     }
     if @auth.info.email.present? # 카카오의 경우 email을 받아올 수 없어서 아래와 같이 처리했습니다. 또한 sns 계정 로그인 할 때 이메일 계정이 아닌 경우가 있어서 일반화하여 처리할 수 있습니다.

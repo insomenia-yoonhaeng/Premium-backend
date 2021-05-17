@@ -273,7 +273,13 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :kakao, ENV["KAKAO_CLIENT_ID"], :redirect_path => "/auth/kakao/callback" , provider_ignores_state: true # ==> Warden configuration
-
+  config.omniauth :apple, ENV["APPLE_CLIENT_ID"], "", {
+    scope: "email name",
+    team_id: ENV["APPLE_TEAM_ID"],
+    key_id: ENV["APPLE_KEY"],
+    pem: ENV["APPLE_PEM"],
+    redirect_uri: "#{ENV["APPLE_REDIRECT_URI"]}", 
+  }
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
