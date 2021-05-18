@@ -122,7 +122,7 @@ class Project < ApplicationRecord
       
       self.attendances.each do | attendance |
         # auth 물어보고 로직 재설정하기, authable이 뭐지? 뭐뭐가 될 수 있는 거지?
-        authentication_rate = attendance.tutee.auths.count.to_f / self.duration
+        authentication_rate = attendance.auths.count.to_f / self.duration
         percentage = authentication_rate * 100
 
         @amount = case percentage
