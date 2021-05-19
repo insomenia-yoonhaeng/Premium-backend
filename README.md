@@ -2,7 +2,7 @@
 
 <div align="center">
 
-  <img src="./appicon/icon1.png" style="width:30px">
+  <img src="./appicon/icon1.png" style="width:30px;height:30px;">
   <!-- <img src="./appicon/icon2.png" style="width:200px"> -->
 
 </div>
@@ -39,7 +39,7 @@ Phusion Passenger(R)      6.0.8
    - 일정은 에빙하우스의 망각곡선을 분석하여 전날 공부했던 내용을 복습 강도를 설정하여 복습과 학습의 비율을 조정할 수 있다.
    - 일정은 책의 목차에 튜터들이 가중치를 입력하게 되면, 이에 따라 프로젝트 기간내에서 각 가중치 비율에 맞게 각 목차의 학습일정이 분산됩니다.
    - 일정은 튜터가 휴식 옵션을 부여할 수 있어서 유연하게 튜티들에게 휴식을 부여할 수 있습니다.
-   - 튜터의 편이를 위해 책 검색 api를 제공하여 책을 검색할 수 있게 하였고, 이에 대한 목차를 크롤링하는 기능을 구현했습니다.
+   - 튜터의 편의를 위해 책 검색 api를 제공하여 책을 검색할 수 있게 하였고, 이에 대한 목차를 크롤링하는 기능을 구현했습니다.
 
 2. 튜터들이 프로젝트를 만들면, 튜티들은 체험기간 동안 프로젝트를 체험할 수 있게됩니다.
 
@@ -157,9 +157,9 @@ production:
 
 ```bash
 # db 설정하고 더미데이터 생성
-$ rake db:create
-$ rake db:migrate
-$ rake db:seed
+$ rails db:create
+$ rails db:migrate
+$ rails db:seed
 
 # 서버 실행
 $ rails s
@@ -167,5 +167,5 @@ $ rails s
 
 ## 5. 배포
 
-- [따숲](ddasup.ga)
-- [따숲 관리자](ddasup.ga/admin)
+- [따숲](www.ddasup.ga)
+- [따숲 관리자](www.ddasup.ga/admin)
