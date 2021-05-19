@@ -5,8 +5,13 @@ class ProjectsController < ApiController
 	
 	def index
 		begin
-			projects = Project.ransack(params[:q])&.result
-			render json: each_serializer(projects, ProjectSerializer)
+      projects = (params[:q].include?(:tutor_id_eq) && @current_user.is_a?(Tutor)) ? @current_user.projects : Project
+      unless @current_user.id.eql?(params.dig(:q,:tutor_id_eq).to_i)
+        render json: { error: "잘못된 프로젝트 조회 접근입니다" }, status: :bad_request 
+      else
+        projects = projects.ransack(params[:q].except(:tutor_id_eq)).result
+        render json: each_serializer(projects, ProjectSerializer)
+      end
 		rescue => exception
 			render json: { error: projects&.errors&.full_messages&.first }, status: :bad_request
 		end
