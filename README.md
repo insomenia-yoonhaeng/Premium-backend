@@ -2,17 +2,16 @@
 
 <div sytle="display: inline-flex;" align="center">
 
-  <img src="./appicon/icon1.png" style="width:50px">
+  <img src="./appicon/icon1.png" style="width:30px">
   <!-- <img src="./appicon/icon2.png" style="width:200px"> -->
 
 </div>
 
-- 목차
-  - [1. 개발 환경](##1.-개발-환경)
-  - [2. 기능 소개](##2.-기능-소개)
-  - [3. 3rd-party API](##3.-3rd-party-API)
-  - [4. Getting Started](##4.-Getting-Started)
-  - [5. 배포](##5.-배포)
+- [1. 개발 환경](##1.-개발-환경)
+- [2. 기능 소개](##2.-기능-소개)
+- [3. 3rd-party API](##3.-3rd-party-API)
+- [4. Getting Started](##4.-Getting-Started)
+- [5. 배포](##5.-배포)
 
 ## 1. 개발 환경
 
