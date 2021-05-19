@@ -1,6 +1,6 @@
 # About Premium Server
 
-<div sytle="display: inline-flex;" align="center">
+<div align="center">
 
   <img src="./appicon/icon1.png" style="width:30px">
   <!-- <img src="./appicon/icon2.png" style="width:200px"> -->
