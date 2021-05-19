@@ -26,17 +26,15 @@ class SnsLogin
   # email 날라오는 것 분기처리해서 데이터 해시 만들어주기
   def get_auth_params
     auth_params = {
-      name: @auth.info.name,
       password: Devise.friendly_token[0,20],
-      name: "#{@auth.info.last_name}#{@auth.info.first_name}",
+      name: @auth.info.last_name.present? ? "#{@auth.info.last_name}#{@auth.info.first_name}" : @auth.info.name,
       account_type: @auth.provider
     }
     if @auth.info.email.present? # 카카오의 경우 email을 받아올 수 없어서 아래와 같이 처리했습니다. 또한 sns 계정 로그인 할 때 이메일 계정이 아닌 경우가 있어서 일반화하여 처리할 수 있습니다.
       auth_params[:email] = @auth.info.email
     else
       loop do
-        uniq_num = SecureRandom.hex(3).downcase
-        @generated_email = "#{@auth.provider}#{uniq_num}@ddaseup.com"
+        @generated_email = "#{@auth.provider}#{Time.current.to_i}@ddasup.com"
         break unless User.find_by(email: @generated_email).present?
       end
       auth_params[:email] = @generated_email

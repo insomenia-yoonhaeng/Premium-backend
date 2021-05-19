@@ -1,7 +1,7 @@
 class ProjectsController < ApiController
   before_action :authorize_check_request
 	before_action :check_user_type, except: %i(index show)
-  before_action :load_project, except: %i(index create create_schedule)
+  before_action :load_project, except: %i(index show create create_schedule)
 	
 	def index
 		begin

@@ -79,7 +79,10 @@ def generate_book
 end
 
 def generate_attendance
-  Tutee.all.each{ |tutee| tutee.attendances.create(project_id: Project.all.sample.id) }
+  Tutee.all.each do |tutee|
+    attendance = tutee.attendances.create(project_id: Project.all.sample.id)
+    attendance.auths.create
+  end
 end
 
 def generate_seed
@@ -105,5 +108,6 @@ def generate_seed
     puts "#{model} seed 생성 완료"
   end
 end
+
 
 generate_seed

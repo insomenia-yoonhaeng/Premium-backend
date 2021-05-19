@@ -279,6 +279,7 @@ Devise.setup do |config|
     key_id: ENV["APPLE_KEY"],
     pem: ENV["APPLE_PEM"],
     redirect_uri: "#{ENV["APPLE_REDIRECT_URI"]}", 
+    provider_ignores_state: false
   }
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
