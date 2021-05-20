@@ -57,11 +57,11 @@ class AuthsController < ApiController
   end
 
 	def load_project
-		@project = Project.find(params[:project_id])
+		@project = Project.find(params[:project_id]) if params[:project_id].present?
 	end
 
   def load_target
-    @target = (@current_user.is_a? Tutor) ? @current_user : @current_user&.attendances.where(project_id: @project.id)&.first
+    @target = (@current_user.is_a? Tutor) ? @current_user : @current_user&.attendances.where(project_id: @project&.id)&.first
   end
 
 end
