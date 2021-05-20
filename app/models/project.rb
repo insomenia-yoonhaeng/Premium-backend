@@ -2,6 +2,7 @@ class Project < ApplicationRecord
   
   include ImageUrl
   include Imageable
+  include Iamport
 
   acts_as_paranoid
   
@@ -72,18 +73,17 @@ class Project < ApplicationRecord
   # 소수점 이하 자리가 같은 경우, 상위 n(남은 기간(버림으로 발생하는))개 랜덤으로 분배
   # O(nlogn)
   def make_schedule_without_rest
-
-    set_data_before_make_schedule
     
+    set_data_before_make_schedule
+
     @options.each_with_index do | option, index |
       @start_at = index != 0 ? @end_at + 1.days : self.started_at # 첫 인덱스면, 첫 챕터니까 이 챕터의 시작일은 프로젝트의 시작일과 같다. 정렬 순서 뒤바꾸지 않는 이상 괜찮다 created_at
       real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
       @end_at =  @start_at + (@recongnize_days.pluck(:id).include?(option.id) ? real_ratio_alloc_day.to_i.days : (real_ratio_alloc_day.to_i - 1).days)
-      option.start_at = @start_at
-      option.end_at = @end_at
+      option.update(start_at: @start_at, end_at: @end_at)
     end
 
-    Option.import @options.to_ary, on_duplicate_key_update: { columns: %i(start_at end_at) }
+    # Option.import @options.to_ary, on_duplicate_key_update: %i(start_at end_at)
 
   end
 
@@ -107,17 +107,49 @@ class Project < ApplicationRecord
       @end_at =  @start_at + (@recongnize_days.pluck(:id).include?(option.id) ? real_ratio_alloc_day.to_i.days : (real_ratio_alloc_day.to_i - 1).days)
       if grant_holiday_options.include?(option.id)
         @end_at += 1.day
-        option.start_at = @start_at
-        option.end_at = @end_at
-        option.holiday = 'holiday'  
+        option.update(start_at: @start_at, end_at: @end_at, holiday: 'holiday')
       else
-        option.start_at = @start_at
-        option.end_at = @end_at
+        option.update(start_at: @start_at, end_at: @end_at)
       end
     end
 
-    Option.import @options.to_ary, on_duplicate_key_update: { columns: %i(start_at end_at holiday) }
+    # Option.import @options.to_ary, on_duplicate_key_update: { columns: %i(start_at end_at holiday) }
   
+  end
+
+  def refund_all_tutties
+    if self.attendances.present?
+      
+      self.attendances.each do | attendance |
+        # auth 물어보고 로직 재설정하기, authable이 뭐지? 뭐뭐가 될 수 있는 거지?
+        authentication_rate = attendance.auths.count.to_f / self.duration
+        percentage = authentication_rate * 100
+
+        @amount = case percentage
+          when 0..49 then 0
+          when 50..79 then self.deposit * 0.5
+          when 80..100 then self.deposit
+          else -1
+        end
+
+        if @amount > 0
+          code, message, response = Iamport.iamport_cancel(attendance.imp_uid, @amount)
+          case code 
+            when 0..1
+              Rails.logger.info message
+            else
+              Rails.logger.info "비유한 토큰입니다."
+          end
+        else
+          Rails.logger.info "환급이 필요없거나 잘못 계산되었습니다."
+        end
+
+      end
+    
+    else
+      Rails.logger.info "참여자가 없습니다."
+    end
+
   end
 
 end

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   resources :users, except: :create
 	resources :projects do
     get :create_schedule
+    get :refund
   end
   resources :auths do
     get :show_all, on: :collection
@@ -43,4 +44,5 @@ Rails.application.routes.draw do
   resources :likes, only: %i(create destroy) do
     get :is_like, on: :collection
   end
+  resources :payments, only: %i(create)
 end
