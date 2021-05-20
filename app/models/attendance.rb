@@ -22,6 +22,9 @@ class Attendance < ApplicationRecord
       self.paid!
       self.full!
     end
-    
+  end
+
+  def targets
+    self.tutee
   end
 end
