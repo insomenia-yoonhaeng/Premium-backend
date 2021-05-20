@@ -1,7 +1,7 @@
 class ProjectsController < ApiController
   before_action :authorize_check_request
 	before_action :check_user_type, except: %i(index show)
-  before_action :load_project, except: %i(index show create create_schedule)
+  before_action :load_project, except: %i(index show create create_schedule refund)
 	
 	def index
 		begin
@@ -67,7 +67,17 @@ class ProjectsController < ApiController
 		rescue => exception
 			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request
 		end
-	end	
+	end
+
+  def refund
+    begin
+      # 일단은 동기처리
+			project.refund_all_tutties
+			render json: { status: :ok }
+		rescue => exception
+			render json: {error: project&.errors&.full_messages&.first}, status: :bad_request			
+		end
+  end
 
 	protected
 
