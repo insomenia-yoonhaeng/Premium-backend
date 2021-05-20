@@ -4,6 +4,6 @@ class ProjectSerializer < Panko::Serializer
 	has_one :tutor, serializer: UserSerializer
 
   def attendance_presence
-    self.attendances.present?
+    object.attendances.present?
   end
 end

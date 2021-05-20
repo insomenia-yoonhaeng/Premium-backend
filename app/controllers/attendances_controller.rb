@@ -10,7 +10,7 @@ class AttendancesController < ApiController
       @attendances = @current_user.attendances
       render json: each_serializer(@attendances, AttendanceSerializer), status: :ok
     rescue => exception
-      render json: { errors: @attendances&.errors&.full_messages&.first }, status: :bad_request     
+      render json: { errors: "잘못된 접근입니다" }, status: :bad_request     
     end
   end
 
