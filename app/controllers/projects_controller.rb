@@ -13,7 +13,7 @@ class ProjectsController < ApiController
         render json: each_serializer(projects, ProjectSerializer)
       end
 		rescue => exception
-			render json: { error: projects&.errors&.full_messages&.first }, status: :bad_request
+			render json: { error: "프로젝트 조회 실패" }, status: :bad_request
 		end
 	end
 
