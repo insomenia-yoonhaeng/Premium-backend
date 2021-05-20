@@ -13,6 +13,6 @@ class Auth < ApplicationRecord
 	private 
 
 	def check_user_auth
-		throw(:abort) if (self.authable.auths.present? && self.authable_type == "User" && self.authable.type == "Tutor")
+		throw(:abort) if (self.authable.auths.present? && self.authable_type == "User")
 	end
 end
