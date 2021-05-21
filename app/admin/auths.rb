@@ -33,7 +33,13 @@ ActiveAdmin.register Auth do
       row :created_at
       row :updated_at
       row "인증 이미지" do |auth|
-        image_tag auth.images.first.image.url(:small) ,class: "user-index-image" if auth.images.present?
+        ul do
+          auth.images.each do |image|
+            span do 
+              image_tag(image.image.url(:small)) if image.present?
+            end
+          end
+        end
       end
     end
   end
