@@ -386,6 +386,7 @@ GEM
     ruby-vips (2.1.0)
       ffi (~> 1.12)
     ruby2_keywords (0.0.4)
+    ruby_http_client (3.5.1)
     rubyzip (2.3.0)
     sassc (2.4.0)
       ffi (~> 1.9)
@@ -398,6 +399,11 @@ GEM
     selenium-webdriver (3.142.7)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
+    sendgrid-actionmailer (3.1.0)
+      mail (~> 2.7)
+      sendgrid-ruby (~> 6.0)
+    sendgrid-ruby (6.3.6)
+      ruby_http_client (~> 3.4)
     simple_form (5.1.0)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
@@ -484,6 +490,7 @@ DEPENDENCIES
   rubocop
   sassc-rails
   selenium-webdriver
+  sendgrid-actionmailer
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
