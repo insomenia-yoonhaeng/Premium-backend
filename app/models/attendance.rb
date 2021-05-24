@@ -13,6 +13,10 @@ class Attendance < ApplicationRecord
 
   ransacker :pay_status, formatter: proc {|v| pay_statuses[v]}
 
+  enum refund_status: %i(yet complete)
+
+  ransacker :refund_status, formatter: proc {|v| refund_statuses[v]}
+
   def check_payment
     code, response = Iamport.iamport_payment(self.imp_uid)
     
