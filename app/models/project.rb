@@ -118,9 +118,8 @@ class Project < ApplicationRecord
   end
 
   def refund_all_tutties
-    if self.attendances.present?
-      
-      self.attendances.each do | attendance |
+    if self.attendances.yet.present?
+      self.attendances.yet.each do | attendance |
         # auth 물어보고 로직 재설정하기, authable이 뭐지? 뭐뭐가 될 수 있는 거지?
         authentication_rate = attendance.auths.count.to_f / self.duration
         percentage = authentication_rate * 100
@@ -134,21 +133,18 @@ class Project < ApplicationRecord
 
         if @amount > 0
           code, message, response = Iamport.iamport_cancel(attendance.imp_uid, @amount)
-<<<<<<< Updated upstream
           case code 
+            # 제대로 환급
             when true
               Rails.logger.info message
+              attendance.complete!
+            # 이미 환급된 경우
             when false
               Rails.logger.info message
+              attendance.complete!
+            # 나머지
             else
               Rails.logger.info "환급과정에서 오류가 발생하였습니다.(부분환불 미지원 PG 등)"
-=======
-          case code.to_i 
-            when 0..1
-              Rails.logger.info message
-            else
-              Rails.logger.info "비유효한 토큰입니다."
->>>>>>> Stashed changes
           end
         else
           Rails.logger.info "환급이 필요없거나 잘못 계산되었습니다."

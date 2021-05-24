@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_17_100237) do
+ActiveRecord::Schema.define(version: 2021_05_24_103509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_05_17_100237) do
     t.string "merchant_uid"
     t.integer "amount", default: 0
     t.integer "pay_status", default: 0
+    t.integer "refund_status", default: 0
     t.index ["project_id"], name: "index_attendances_on_project_id"
     t.index ["tutee_id"], name: "index_attendances_on_tutee_id"
   end
@@ -153,10 +154,11 @@ ActiveRecord::Schema.define(version: 2021_05_17_100237) do
     t.bigint "category_id"
     t.integer "required_time", default: 0
     t.integer "review_weight", default: 0
-    t.datetime "deleted_at"
     t.string "mission"
     t.bigint "book_id"
+    t.datetime "deleted_at"
     t.integer "rest", default: 0
+    t.integer "chat", default: 0
     t.index ["book_id"], name: "index_projects_on_book_id"
     t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["deleted_at"], name: "index_projects_on_deleted_at"
