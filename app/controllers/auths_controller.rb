@@ -39,7 +39,7 @@ class AuthsController < ApiController
     begin
       if @current_user.is_a? Tutor
         project = @current_user.projects.find(params[:project_id]) 
-        render json: each_serializer(project.auths, AuthSerializer), status: :ok
+        render json: each_serializer(project&.auths, AuthSerializer), status: :ok
       else
         render json: { errors: "튜터만 접근 가능합니다"}, status: :bad_request
       end
@@ -57,11 +57,11 @@ class AuthsController < ApiController
   end
 
 	def load_project
-		@project = Project.find(params[:project_id])
+		@project = Project.find(params[:project_id]) if params[:project_id].present?
 	end
 
   def load_target
-    @target = (@current_user.is_a? Tutor) ? @current_user : @current_user&.attendances.where(project_id: @project.id)&.first
+    @target = (@current_user.is_a? Tutor) ? @current_user : @current_user&.attendances.where(project_id: @project&.id)&.first
   end
 
 end

@@ -32,6 +32,15 @@ ActiveAdmin.register Auth do
       row :description
       row :created_at
       row :updated_at
+      row "인증 이미지" do |auth|
+        ul do
+          auth.images.each do |image|
+            span do 
+              image_tag(image.image.url(:small)) if image.present?
+            end
+          end
+        end
+      end
     end
   end
 end

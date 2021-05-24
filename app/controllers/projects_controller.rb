@@ -5,7 +5,7 @@ class ProjectsController < ApiController
 	
 	def index
 		begin
-      projects = (params[:q]&.include?(:tutor_id_eq) && @current_user.is_a?(Tutor)) ? @current_user.projects : Project
+      projects = (params[:q]&.include?(:tutor_id_eq) && @current_user.is_a?(Tutor)) ? @current_user.projects : Project.includes(:tutor).all
       if (!@current_user.id.eql?(params.dig(:q,:tutor_id_eq).to_i) && params.dig(:q, :tutor_id_eq).present?)
         render json: { error: "잘못된 프로젝트 조회 접근입니다" }, status: :bad_request 
       else
@@ -13,7 +13,7 @@ class ProjectsController < ApiController
         render json: each_serializer(projects, ProjectSerializer)
       end
 		rescue => exception
-			render json: { error: projects&.errors&.full_messages&.first }, status: :bad_request
+			render json: { error: "프로젝트 조회 실패" }, status: :bad_request
 		end
 	end
 

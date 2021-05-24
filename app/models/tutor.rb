@@ -6,4 +6,9 @@ class Tutor < User
 
 	has_many :options
 	has_many :chapters, through: :options
+
+  def targets
+    self.auths.includes(:images).first.images.first
+  end
+
 end
