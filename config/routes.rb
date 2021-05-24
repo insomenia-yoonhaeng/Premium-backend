@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :users, except: :create
 	resources :projects do
     get :create_schedule
-    get :refund
+    get :refund, on: :collection
   end
   resources :auths do
     get :show_all, on: :collection

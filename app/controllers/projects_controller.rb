@@ -72,6 +72,7 @@ class ProjectsController < ApiController
   def refund
     begin
       # 일단은 동기처리
+      project = @current_user.projects&.find_by(id: params.dig(:project_id))
 			project.refund_all_tutties
 			render json: { status: :ok }
 		rescue => exception
