@@ -18,13 +18,17 @@ class UsersController < ApiController
       @user = User.create user_params
       render json: serializer(@user, UserSerializer,[:id, :name, :email, :type]) ,status: :ok
     rescue => e
-      return render json: {error: @user&.errors&.full_messages&.first}, status: :bad_request
+      render json: {error: @user&.errors&.full_messages&.first}, status: :bad_request
     end
   end
   
   def update
-    result = (@user.update user_params) ? [@user, :ok] : [@user.update.errors.full_messages, ""]
-    send_response(result)
+    begin
+      @user.update user_params
+      render json: serializer(@user, UserSerializer, [:id,:name, :email, :type]), status: :ok
+    rescue => exception
+      render json: {error: @user&.errors&.full_messages&.first}, status: :bad_request
+    end
   end
 
   def destroy

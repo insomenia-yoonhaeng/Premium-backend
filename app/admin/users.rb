@@ -20,6 +20,14 @@ ActiveAdmin.register User do
   filter :name_cont, label: "이름 검색"
   filter :email_cont, label: "이메일 검색"
 
+  controller do
+    def update
+      debugger
+      super
+
+    end
+  end
+  
   index do
     selectable_column
     id_column

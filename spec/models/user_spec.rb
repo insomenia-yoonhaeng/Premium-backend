@@ -6,17 +6,17 @@ RSpec.describe User, type: :model do
   end
 
   context "유저 생성 관련" do
-    xit "잘못된 이메일 입력" do
+    it "잘못된 이메일 입력" do
       user = User.create(email: nil, password: "password", name: Faker::Name::name.gsub(/\s+/, ""))
-      expect(user).to eq nil
+      expect(user.id).to eq nil
     end
-    xit "중복 이메일 입력" do
+    it "중복 이메일 입력" do
       user = User.create(email: "testuser@test.com", password: "password", name: Faker::Name::name.gsub(/\s+/, ""))
-      expect(user).to eq nil
+      expect(user.id).to eq nil
     end
-    xit "잘못된 이름 입력" do
-      user = User.create(email: nil, password: "password", name: Faker::Name::name.gsub(/\s+/, ""))
-      expect(user).to eq nil
+    it "잘못된 이름 입력" do
+      user = User.create(email: nil, password: "password")
+      expect(user.id).to eq nil
     end
   end
 end
