@@ -4,6 +4,7 @@ class ProjectSerializer < Panko::Serializer
 	has_one :tutor, serializer: UserSerializer
 
   def attendance_presence
-    object.attendances.present?
+    # object.attendances.present?
+    Project.includes(:attendances).find(object.id).attendances.present?
   end
 end

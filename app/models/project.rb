@@ -134,7 +134,6 @@ class Project < ApplicationRecord
 
         if @amount > 0
           code, message, response = Iamport.iamport_cancel(attendance.imp_uid, @amount)
-<<<<<<< Updated upstream
           case code 
             when true
               Rails.logger.info message
@@ -142,13 +141,6 @@ class Project < ApplicationRecord
               Rails.logger.info message
             else
               Rails.logger.info "환급과정에서 오류가 발생하였습니다.(부분환불 미지원 PG 등)"
-=======
-          case code.to_i 
-            when 0..1
-              Rails.logger.info message
-            else
-              Rails.logger.info "비유효한 토큰입니다."
->>>>>>> Stashed changes
           end
         else
           Rails.logger.info "환급이 필요없거나 잘못 계산되었습니다."

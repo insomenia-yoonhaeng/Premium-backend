@@ -38,8 +38,7 @@ gem 'arctic_admin'
 gem 'devise-i18n'
 
 gem 'jwt_sessions'
-# gem 'pry', '~> 0.13.1'
-gem 'pry'
+# # gem 'pry', '~> 0.13.1'
 gem 'pry-rails'
 gem 'pry'
 gem 'redis'
@@ -66,7 +65,6 @@ gem 'faker'
 gem "paranoia"
 gem 'omniauth-apple'
 
-gem 'rails_db'
 gem 'httparty'
 # gem 'iamport'
 group :development, :test do
