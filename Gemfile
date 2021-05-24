@@ -92,3 +92,5 @@ gem 'carrierwave'
 gem 'mini_magick'
 
 gem 'activerecord-import'
+
+gem 'sendgrid-actionmailer'

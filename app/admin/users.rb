@@ -69,4 +69,14 @@ ActiveAdmin.register User do
     end
     f.actions
   end
+
+  controller do
+    def update
+      user = User.find_by(id: params[:id])
+      status = I18n.t("activerecord.enum.user.status.#{params.dig(:user, :status)}")
+      UserMailer.send_email(user, "관리자가 #{user.name}님의 튜터 자격을 #{status}하였습니다.").deliver
+      super
+    end
+  end
+
 end
