@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Books", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+  let(:book) { FactoryGirl.create(:book)}
+  
+  describe "책 생성" do
+    
   end
 end

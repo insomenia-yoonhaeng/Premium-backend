@@ -82,7 +82,7 @@ class Project < ApplicationRecord
       @start_at = index != 0 ? @end_at + 1.days : self.started_at # 첫 인덱스면, 첫 챕터니까 이 챕터의 시작일은 프로젝트의 시작일과 같다. 정렬 순서 뒤바꾸지 않는 이상 괜찮다 created_at
       real_ratio_alloc_day = self.duration * ( option.weight.to_f / @weight_sum )
       @end_at =  @start_at + (@recongnize_days.pluck(:id).include?(option.id) ? real_ratio_alloc_day.to_i.days : (real_ratio_alloc_day.to_i - 1).days)
-      option.update(start_at: @start_at, end_at: @end_at)
+      option.update(start_at: @start_at.at_beginning_of_day, end_at: @end_at.at_end_of_day)
     end
 
     # Option.import @options.to_ary, on_duplicate_key_update: %i(start_at end_at)
@@ -109,9 +109,9 @@ class Project < ApplicationRecord
       @end_at =  @start_at + (@recongnize_days.pluck(:id).include?(option.id) ? real_ratio_alloc_day.to_i.days : (real_ratio_alloc_day.to_i - 1).days)
       if grant_holiday_options.include?(option.id)
         @end_at += 1.day
-        option.update(start_at: @start_at, end_at: @end_at, holiday: 'holiday')
+        option.update(start_at: @start_at.at_beginning_of_day, end_at: @end_at.at_end_of_day, holiday: 'holiday')
       else
-        option.update(start_at: @start_at, end_at: @end_at)
+        option.update(start_at: @start_at.at_beginning_of_day, end_at: @end_at.at_end_of_day)
       end
     end
 

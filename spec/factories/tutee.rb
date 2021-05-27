@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :tuty do
+  factory :tutee do
     email    { Faker::Internet.email }
     password { "password" }
     name { Faker::Name::name.gsub(/\s+/, "") }

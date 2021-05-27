@@ -7,4 +7,5 @@ class ProjectSerializer < Panko::Serializer
     # object.attendances.present?
     Project.includes(:attendances).find(object.id).attendances.present?
   end
+
 end

@@ -25,7 +25,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
             render json: { error: I18n.t("devise.registrations.signed_up_but_inactive") }, status: :locked and return
           end
         else
-          render json: { error: user.errors.full_messages.join(' ') }, status: :unprocessable_entity and return
+          render json: { error: user.errors.full_messages.join(' ') }, status: :bad_request and return
         end
       end
     rescue ActiveRecord::NotNullViolation => exception
