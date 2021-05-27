@@ -1,27 +1,20 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def kakao
-    auth_login("kakao")
+    # webview식 구현
+    auth_login("kakao", false)
   end
 
   def apple
-    auth_login("apple")
-  end
-
-  def after_sign_in_path_for(resource)
-    auth = request.env['omniauth.auth']
-    @identity = Identity.find_for_oauth(auth)
-    if @current_user.persisted?
-      root_path
-    else
-      new_user_registration_path
-    end
+    auth_login("apple", true)
+    # 모듈 써서 구현된 것은 정보만 받아서 생성 후 적용
   end
 
   private
   ## TODO SIGN_IN & SIGN_UP 
   ## 회원 검증 끝났을 때 oauth에서 보통 어떤식으로 진행...? 회원 가입 시 바로 로그인까지? or 회원 가입 후 로그인 다시 진행?
-  def auth_login(provider)
-    sns_login = SnsLogin.new(request.env["omniauth.auth"], @current_user) # 서비스 레이어로 작업했습니다.
+  def auth_login(provider, only_params)
+    auth_hash = only_params ? params : request.env["omniauth.auth"]
+    sns_login = SnsLogin.new(auth_hash, @current_user, only_params) 
     @user = sns_login.find_user_oauth
     begin
       if @user.persisted?
@@ -38,7 +31,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
             secure: Rails.env.production?,
           )
 
-          render json: { csrf: tokens[:csrf], token: tokens[:access], refresh_token: tokens[:refresh] ,is_omniauth: true } and return
+          render json: { csrf: tokens[:csrf], token: tokens[:access], refresh_token: tokens[:refresh] ,is_omniauth: true , user_id: @user.id} and return
         else
           # 로그인 진행
           payload = { user_id: @user.id}
@@ -47,12 +40,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           render json: { csrf: tokens[:csrf], token: tokens[:access], refresh_token: tokens[:refresh] ,is_omniauth: true } and return
         end
       else
-        session["devise.#{provider}_data"] = request.env["omniauth.auth"]
+        session["devise.#{provider}_data"] = auth_hash
         # redirect_to new_user_registration_url, notice: '로그인 에러가 발생하였습니다.'
         render json: {errors: "로그인 에러가 발생했습니다"}, status: :not_found
       end
     rescue 
-      session["devise.#{provider}_data"] = request.env["omniauth.auth"]
+      session["devise.#{provider}_data"] = auth_hash
       render json: {errors: "로그인 에러가 발생했습니다"}, status: :not_found
     end
 

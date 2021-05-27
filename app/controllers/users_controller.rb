@@ -1,6 +1,6 @@
 class UsersController < ApiController
-  before_action :authorize_check_request, except: :create
-  before_action :load_user, except: %i(index create)
+  before_action :authorize_check_request, except: %i(create update apple)
+  before_action :load_user, except: %i(index apple create)
 
   def index
     @users = User.all
@@ -11,15 +11,6 @@ class UsersController < ApiController
   def show
     result = (@user) ? [@user, :ok] : [@user.errors.full_messages, :unprocessable_entity]
     render json: serializer(@user, UserSerializer, [:id, :name, :type]), status: :ok
-  end
-    
-  def create
-    begin
-      @user = User.create user_params
-      render json: serializer(@user, UserSerializer,[:id, :name, :email, :type]) ,status: :ok
-    rescue => e
-      render json: {error: @user&.errors&.full_messages&.first}, status: :bad_request
-    end
   end
   
   def update
@@ -56,6 +47,11 @@ class UsersController < ApiController
     rescue => exception
       render json: { errors: "잘못된 접근입니다"}, status: :bad_request
     end
+  end
+
+  def apple
+    auth_login("apple", true)
+    # 모듈 써서 구현된 것은 정보만 받아서 생성 후 적용
   end
 
   private

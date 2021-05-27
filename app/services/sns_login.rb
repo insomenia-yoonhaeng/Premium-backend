@@ -2,9 +2,10 @@
 class SnsLogin
   attr_reader :auth, :signed_in_resource
 
-  def initialize(auth, signed_in_resource = nil)
+  def initialize(auth, signed_in_resource = nil, only_params)
     @auth = auth
     @signed_in_resource = signed_in_resource
+    @only_params = only_params
   end
 
   def find_user_oauth
@@ -20,21 +21,26 @@ class SnsLogin
   private
   # 사용자의 Identity 객체 찾기
   def build_identity
-    Identity.find_for_oauth(@auth)
+    Identity.find_for_oauth(@auth, @only_params)
   end
 
   # email 날라오는 것 분기처리해서 데이터 해시 만들어주기
   def get_auth_params
+    auth_name = @only_params ? "#{@auth.dig("fullName", "familyName")}#{@auth.dig("fullName", "givenName")}" : @auth.info.name
+    auth_provider = @only_params ? "Apple" : @auth.provider
     auth_params = {
       password: Devise.friendly_token[0,20],
-      name: @auth.info.last_name.present? ? "#{@auth.info.last_name}#{@auth.info.first_name}" : @auth.info.name,
-      account_type: @auth.provider
+      name: auth_name,
+      account_type: auth_provider
     }
-    if @auth.info.email.present? # 카카오의 경우 email을 받아올 수 없어서 아래와 같이 처리했습니다. 또한 sns 계정 로그인 할 때 이메일 계정이 아닌 경우가 있어서 일반화하여 처리할 수 있습니다.
+    auth_email = @only_params ? @auth.dig("email") : ""
+    if @only_params 
+      auth_params[:email] = auth_email
+    elsif @auth&.info&.email.present?
       auth_params[:email] = @auth.info.email
     else
       loop do
-        @generated_email = "#{@auth.provider}#{Time.current.to_i}@ddasup.com"
+        @generated_email = "#{auth_provider}#{Time.current.to_i}@ddasup.com"
         break unless User.find_by(email: @generated_email).present?
       end
       auth_params[:email] = @generated_email
