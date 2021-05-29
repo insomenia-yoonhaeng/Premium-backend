@@ -1,6 +1,15 @@
 class LikesController < ApiController
   before_action :authorize_check_request
 
+  def index
+    begin
+      likes = @current_user&.likes
+      render json: each_serializer(likes, LikeSerializer), status: :ok
+    rescue => exception
+      render json: {error: "좋아요 조회에서 문제가 발생했습니다."}, status: :bad_request
+    end
+  end
+
   def is_like
     begin
       like = @current_user.likes.find_by(likable_type: like_params[:likable_type], likable_id: like_params[:likable_id])
