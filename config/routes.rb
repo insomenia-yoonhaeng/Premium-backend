@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # devise_scope :users do
   #   post "/users/sign_up" => "devise/registrations#create"
   # end
+  root 'home#index'
   devise_for :users,
     path: '',
     path_names: {
@@ -24,7 +25,9 @@ Rails.application.routes.draw do
   get '/get_current_user', to: 'users#get_current_user'
   get '/get_project_list', to: 'users#get_project_list'
   post '/refresh', to: 'refresh#create'
-  resources :users, except: :create
+  resources :users, except: :create do
+    get :mylikes, on: :collection
+  end
 	resources :projects do
     get :create_schedule
     get :refund, on: :collection
@@ -41,7 +44,7 @@ Rails.application.routes.draw do
     patch :update, on: :collection
   end
   resources :options
-  resources :likes, only: %i(create destroy) do
+  resources :likes, only: %i(create destroy index) do
     get :is_like, on: :collection
   end
   resources :payments, only: %i(create)
