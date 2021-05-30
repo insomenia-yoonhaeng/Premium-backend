@@ -30,7 +30,7 @@ class UsersController < ApiController
 
   def get_current_user
     begin
-      render json: serializer(@current_user, UserSerializer, [:id, :name, :type]), status: :ok
+      render json: serializer(@current_user, UserSerializer, attributes: [:id, :name, :type]), status: :ok
     rescue => exception
       render json: {errors: @current_user&.errors&.full_messages&.first}, status: :bad_request
     end
@@ -54,14 +54,15 @@ class UsersController < ApiController
     # 모듈 써서 구현된 것은 정보만 받아서 생성 후 적용
   end
   
-  def mylikes
-    begin
-      users = User.where(id: @current_user.likes.pluck(:likable_id))
-      render json: each_serializer(users, UserSerializer), status: :ok
-    rescue => exception
-      render json: { errors: "좋아요누른 튜터를 찾을 수 없습니다."}, status: :bad_request
-    end
-  end
+  # def mylikes
+  #   begin
+  #     likable_ids = @current_user.likes.pluck(:likable_id)
+  #     users = User.where(id: likable_ids).includes(:likes)
+  #     render json: each_serializer(users, UserSerializer, context: {likable_ids: likable_ids }), status: :ok
+  #   rescue => exception
+  #     render json: { errors: "좋아요누른 튜터를 찾을 수 없습니다."}, status: :bad_request
+  #   end
+  # end
 
   private
     
