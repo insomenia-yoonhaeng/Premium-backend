@@ -5,7 +5,7 @@ class ProjectsController < ApiController
 	
 	def index
 		begin
-      projects = (params[:q]&.include?(:tutor_id_eq) && @current_user.is_a?(Tutor)) ? @current_user.projects : Project.includes(:tutor).all
+      projects = (params[:q]&.include?(:tutor_id_eq) && @current_user.is_a?(Tutor)) ? @current_user.projects : Project.joins(:tutor).order("likes_count desc")
       if (!@current_user.id.eql?(params.dig(:q,:tutor_id_eq).to_i) && params.dig(:q, :tutor_id_eq).present?)
         render json: { error: "잘못된 프로젝트 조회 접근입니다" }, status: :bad_request 
       else
