@@ -27,9 +27,7 @@ Rails.application.routes.draw do
   get '/apple/login', to: 'users#apple'
 
   post '/refresh', to: 'refresh#create'
-  resources :users, except: :create do
-    get :mylikes, on: :collection
-  end
+  resources :users, except: :create
 	resources :projects do
     get :create_schedule
     get :refund, on: :collection

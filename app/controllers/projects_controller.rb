@@ -10,7 +10,7 @@ class ProjectsController < ApiController
         render json: { error: "잘못된 프로젝트 조회 접근입니다" }, status: :bad_request 
       else
         projects = projects.ransack(params[:q]&.except(:tutor_id_eq)).result
-        render json: each_serializer(projects, ProjectSerializer)
+        render json: each_serializer(projects, ProjectSerializer), status: :ok
       end
 		rescue => exception
 			render json: { error: "프로젝트 조회 실패" }, status: :bad_request
