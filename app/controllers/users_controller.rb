@@ -59,7 +59,7 @@ class UsersController < ApiController
       users = User.where(id: @current_user.likes.pluck(:likable_id))
       render json: each_serializer(users, UserSerializer), status: :ok
     rescue => exception
-      render json: { errors: "좋아요누른 튜터를 찾을 수 없습니다."}, status: :bad_request
+      render json: { errors: "좋아요 누른 튜터를 찾을 수 없습니다."}, status: :bad_request
     end
   end
 
